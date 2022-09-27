@@ -107,6 +107,7 @@ class Artikel extends BaseController
 			}
 		}
 		$data['templateJudul'] = 'Tambah '. $this->halaman_label;
+		$data['templateBreadcrumb'] = [$this->halaman_controller, 'tambah'] ;
 		//echo view('admin/v_templateheader', $data);
 		return view('admin/v_tambahartikel', $data);
 		//echo view('admin/v_templatefooter', $data);

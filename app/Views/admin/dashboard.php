@@ -1,5 +1,7 @@
 <?= $this->extend('layout/admin');?>
 <?= $this->section('content');?>
+	<!-- Theme style -->
+	<link rel="stylesheet" href="<?=base_url('assets/admin');?>/dist/css/adminlte.min.css">
 <?=$this->include('layout/sidebar_admin');?>
 <div class="content-wrapper iframe-mode" data-widget="iframe" data-loading-screen="750">
     <div class="nav navbar navbar-expand navbar-white navbar-light border-bottom p-0">
@@ -45,6 +47,7 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?=base_url('assets/admin');?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+<!-- AdminLTE App -->
+<script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 
 <?=$this->endSection();?>         

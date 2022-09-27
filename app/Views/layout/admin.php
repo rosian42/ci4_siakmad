@@ -9,14 +9,13 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="<?=base_url('assets/admin');?>/dist/css/adminlte.min.css">
+
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" data-panel-auto-height-mode="height">
 <div class="wrapper">
-	
+
   <!-- Navbar 
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     
@@ -65,8 +64,6 @@
 
 <!-- overlayScrollbars -->
 <script src="<?=base_url('assets/admin');?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes 
 <script src="<?=base_url('assets/admin');?>/dist/js/demo.js"></script>-->
 </body>
