@@ -8,7 +8,7 @@ class ModifyColumnTokenAdmin extends Migration
 {
     public function up()
     {
-        $this->forge->modifyColumn('admin',['token varchar(255)'])
+        $this->forge->modifyColumn('admin',['token varchar(255)']);
     }
 
     public function down()
