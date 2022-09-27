@@ -182,9 +182,9 @@ class Artikel extends BaseController
 			}
 		}
 		$data['templateJudul'] = 'Edit '.$this->halaman_label;
-		echo view('admin/v_templateheader', $data);
-		echo view('admin/v_tambahartikel', $data);
-		echo view('admin/v_templatefooter', $data);
+		//echo view('admin/v_templateheader', $data);
+		return view('admin/v_tambahartikel', $data);
+		//echo view('admin/v_templatefooter', $data);
 	}
 
 

@@ -9,11 +9,20 @@
 	<link rel="stylesheet" href="<?=base_url('assets/admin');?>/dist/css/adminlte.min.css">
  <!-- summernote -->
  <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/summernote/summernote-bs4.min.css">
+  	<?php
+		    $halaman = "artikel";
+		?>
   	<section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1><?=$templateJudul;?></h1>
+          </div>
+          <div class="col-sm-6">
+            <div class="float-right">
+            	<a class="btn btn-sm btn-primary" href="<?=base_url("admin/$halaman")?>">Daftar</a>
+            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$halaman/tambah")?>">Tambah</a>
+            </div>
           </div>
 		  
         </div>
@@ -72,9 +81,13 @@
 					<?php
 						if(isset($post_thumbnail)){
 					?>
-						<div class="mb-3">
-							<img src="<?php echo base_url(LOKASI_UPLOAD."/".$post_thumbnail);?>" class="pb-2 mb-2 img-thumbnail w-50" />
-						</div>
+							<div class="col-sm-4">
+                <div class="position-relative">
+                  <img src="<?php echo base_url(LOKASI_UPLOAD."/".$post_thumbnail);?>" class="img-fluid">
+                  
+                </div>
+              </div>
+							
 					<?php
 						}
 					?>
@@ -133,18 +146,15 @@
 <script>
 $(function () {
     //Initialize Select2 Elements
-    $('.select2').select2();
+  $('.select2').select2();
 	$('#summernote').summernote({
             tabsize: 2,
             height: 200
         });
-  })
+	bsCustomFileInput.init();
+})
 </script>
-<script>
-$(function () {
-  bsCustomFileInput.init();
-});
-</script>
+
 
 <?=$this->endSection();?>                        
                         

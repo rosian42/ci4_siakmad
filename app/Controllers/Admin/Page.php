@@ -43,7 +43,7 @@ class Page extends BaseController
 		$currentPage = $this->request->getVar('page_dt');
 		$data['nomor'] = nomor($currentPage, $jumlah_baris);
 		//echo view('admin/v_templateheader', $data);
-		echo view('admin/v_page', $data);
+		return view('admin/v_page', $data);
 		//echo view('admin/v_templatefooter', $data);
 	}
 
@@ -142,9 +142,9 @@ class Page extends BaseController
 			}
 		}
 		$data['templateJudul'] = 'Tambah '. $this->halaman_label;
-		echo view('admin/v_templateheader', $data);
-		echo view('admin/v_tambahpage', $data);
-		echo view('admin/v_templatefooter', $data);
+		//echo view('admin/v_templateheader', $data);
+		return view('admin/v_tambahpage', $data);
+		//echo view('admin/v_templatefooter', $data);
 	}
 
 	function edit($post_id)
@@ -268,9 +268,9 @@ class Page extends BaseController
 			$data['set_halaman_kontak'] = 1;
 		}
 		$data['templateJudul'] = 'Edit '.$this->halaman_label;
-		echo view('admin/v_templateheader', $data);
-		echo view('admin/v_tambahpage', $data);
-		echo view('admin/v_templatefooter', $data);
+		//echo view('admin/v_templateheader', $data);
+		return view('admin/v_tambahpage', $data);
+		//echo view('admin/v_templatefooter', $data);
 	}
 
 
