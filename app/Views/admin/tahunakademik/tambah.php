@@ -41,7 +41,7 @@
                   <div class="form-group row">
                     <label for="tahun_akademik" class="col-sm-2 col-form-label">Tahun Akademik</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control <?=($this->validation->hasError('tahun_akademik'))?'is-invalid':'';?>" id="tahun_akademik" name="tahun_akademik" placeholder="2022-2023">
+                      <input type="text" class="form-control <?=($validation->hasError('tahun_akademik'))?'is-invalid':'';?>" id="tahun_akademik" name="tahun_akademik" placeholder="2022-2023">
                     </div>
                   </div>
                   <div class="form-group row">

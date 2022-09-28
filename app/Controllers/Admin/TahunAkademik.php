@@ -65,7 +65,7 @@ class TahunAkademik extends BaseController
         $data['templateJudul'] = $this->halaman_label;
         $data['controller'] = $this->halaman_controller;
         $data['metode']    = 'tambah';
-
+        $data['validation'] = \Config\Services::validation();
         if($this->request->getMethod()=="post"){
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
             $aturan = [
@@ -92,7 +92,9 @@ class TahunAkademik extends BaseController
 
             if(!$this->validate($aturan)){
                 //session()->setFlashdata('warning', $this->validation->getErrors());
-                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                $validation = \Config\Services::validation();
+                //dd($validation);
+                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $validation);
             }else{
                 $post_thumbnail = "";
                 if($file->getName()){
