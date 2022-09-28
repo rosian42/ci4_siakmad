@@ -64,7 +64,7 @@ class TahunAkademik extends BaseController
                 $row[] = $list->tahun_akademik;
                 $row[] = $list->semester==1?'Ganjil':'Genap';
                 $row[] = $list->is_aktif=='Y'?'Aktif':'Tidak Aktif';
-                $row[] = '<a href="'.$link_delete.'" onclick="return confirm("Yakin akan menghapus data ini?")" class="btn btn-sm btn-danger"> Del</a>
+                $row[] = '<a href="'.$link_delete.'" onclick="hapus(); return false;" class="btn btn-sm btn-danger"> Del</a>
                             <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
                         ';
                 $data[] = $row;
