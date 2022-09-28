@@ -14,7 +14,7 @@ class TahunAkademik extends BaseController
     {
         
         $this->validation = \Config\Services::validation();
-        //$this->m_tahunakademik = new TahunAkademikModel();
+        
         helper('global_helper');
         //untuk konfigurasi internal
         $this->halaman_controller = "tahunakademik";
@@ -23,7 +23,23 @@ class TahunAkademik extends BaseController
 
     public function index()
     {
+        $request = Services::request();
+        $datatable = new TahunAkademikModel($request);
+
         $data = [];
+        if($this->request->getVar('aksi')=='hapus' && $this->request->getVar('id')){
+			$dataTahunAkademik = $datatable->getData($this->request->getVar('id'));
+			if($dataTahunAkademik['id_tahun_akademik']){ #memastikan ada data
+				
+				$aksi = $datatable->hapus($this->request->getVar('id'));
+				if($aksi == true){
+					session()->setFlashdata('success', 'Data telah dihapus');
+				}else{
+					session()->setFlashdata('warning', ['Data gagal dihapus']);
+				}
+			}
+			return redirect()->to("admin/".$this->halaman_controller);
+		}
         $data['templateJudul'] = $this->halaman_label;
 
         return view("admin/".$this->halaman_controller."/view", $data);
@@ -40,11 +56,17 @@ class TahunAkademik extends BaseController
             $no = $request->getPost('start');
 
             foreach ($lists as $list) {
+                $link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
+                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_tahun_akademik;
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $list->name;
-                $row[] = $list->email;
+                $row[] = $list->tahun_akademik;
+                $row[] = $list->semester==1?'Ganjil':'Genap';
+                $row[] = $list->is_aktif=='Y'?'Aktif':'Tidak Aktif';
+                $row[] = '<a href="'.$link_delete.'" onclick="return confirm("Yakin akan menghapus data ini?")" class="btn btn-sm btn-danger"> Del</a>
+                            <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
+                        ';
                 $data[] = $row;
             }
 
@@ -61,11 +83,15 @@ class TahunAkademik extends BaseController
 
     public function tambah()
     {
+        $request = Services::request();
+        $model = new TahunAkademikModel($request);
+        
         $data = [];
         $data['templateJudul'] = $this->halaman_label;
         $data['controller'] = $this->halaman_controller;
         $data['metode']    = 'tambah';
-        $data['validation'] = \Config\Services::validation();
+        $data['validation'] = $this->validation;
+
         if($this->request->getMethod()=="post"){
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
             $aturan = [
@@ -92,40 +118,97 @@ class TahunAkademik extends BaseController
 
             if(!$this->validate($aturan)){
                 //session()->setFlashdata('warning', $this->validation->getErrors());
-                $validation = \Config\Services::validation();
+                //$validation = \Config\Services::validation();
                 //dd($validation);
-                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $validation);
+                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
             }else{
-                $post_thumbnail = "";
-                if($file->getName()){
-                    $post_thumbnail = $file->getRandomName();
-                }
+                
                 $record = [
-                    'username' => session()->get('akun_username'),
-                    'post_title' => $this->request->getVar('post_title'),
-                    'post_status' => $this->request->getVar('post_status'),
-                    'post_thumbnail' => $post_thumbnail,
-                    'post_description' => $this->request->getVar('post_description'),
-                    'post_content' => $this->request->getVar('post_content')
+                    'tahun_akademik' => $this->request->getVar('tahun_akademik'),
+                    'semester' => $this->request->getVar('semester'),
+                    'is_aktif' => $this->request->getVar('is_aktif')
                 ];
                 
-                $aksi = $this->m_post->insertPost($record, $post_type );
+                $aksi = $model->simpanData($record);
                 if($aksi != false){
-                    $page_id = $aksi;
-                    if($file->getName()){
-                        //$lokasi_direktori = "upload";
-                        $lokasi_direktori = LOKASI_UPLOAD;
-                        $file->move($lokasi_direktori, $post_thumbnail);
-                    }
-                    session()->setFlashdata('success', 'Artikel berhasil disimpan');
-                    return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$page_id);
+                    $id = $aksi;
+                    
+                    session()->setFlashdata('success', 'Data berhasil disimpan');
+                    return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);
                 }else{
                     session()->setFlashdata('warning', ['Gagal menyimpan artikel']);
-                    return redirect()->to('admin/'.$this->halaman_controller.'/tambah');
+                    return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
                 }
             }
         }
 
         return view('admin/'.$this->halaman_controller.'/tambah', $data);
     }
+
+    function edit($id)
+	{
+		$request = Services::request();
+        $model = new TahunAkademikModel($request);
+        
+        $data = [];
+        $dataTahunAkademik = $model->getData($id);
+		if(empty($dataTahunAkademik)){
+			return redirect()->to('admin/'.$this->halaman_controller);
+		}
+		$data = $dataTahunAkademik;
+		if($this->request->getMethod()=="post"){
+			$data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
+			$aturan = [
+                'tahun_akademik' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Tahun akademik harus diisi'
+                    ]
+                ],
+                'semester' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Pilih Semester'
+                    ]
+                ],
+                'is_aktif' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required' => 'Pilih aktif atau tidak aktif'
+                    ]
+                ]
+            ];
+			
+
+			if(!$this->validate($aturan)){
+				return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+			}else{
+				
+				$record = [
+                    'tahun_akademik' => $this->request->getVar('tahun_akademik'),
+                    'semester' => $this->request->getVar('semester'),
+                    'is_aktif' => $this->request->getVar('is_aktif'),
+                    'id_tahun_akademik' => $id
+                ];
+				
+				$aksi = $model->simpanData($record);
+				if($aksi != false){
+					
+					session()->setFlashdata('success', 'Data berhasil diupdate');
+					return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);
+				}else{
+					session()->setFlashdata('warning', ['Gagal update data']);
+					return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);
+				}
+			}
+		}
+
+        $data['templateJudul'] = $this->halaman_label;
+        $data['controller'] = $this->halaman_controller;
+        $data['metode']    = 'edit';
+        $data['validation'] = $this->validation;
+		
+		return view('admin/'.$this->halaman_controller.'/tambah', $data);
+		
+	}
 }

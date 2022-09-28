@@ -85,5 +85,50 @@ class TahunAkademikModel extends Model
         return $tbl_storage->countAllResults();
     }
 
+    // untuk update / simpan data
+	public function simpanData($data)
+	{
+		helper('global_helper');
+		$builder = $this->table($this->table);
+		foreach ($data as $key => $value) {
+			$data[$key]=bersihkan_html($value);
+		}
+
+        if(isset($data['id_tahun_akademik'])){
+			$aksi = $builder->save($data);
+			$id = $data['id_tahun_akademik'];
+		}else{
+			$aksi = $builder->save($data);
+			$id = $builder->getInsertID();
+		}
+
+		if($aksi){
+			return $id;
+		}else{
+			return false;
+		}
+	}
+
+    //fungsi ambil data
+    function getData($id)
+	{
+		$builder = $this->table($this->table);
+		$builder->where($this->primaryKey, $id);
+		$query = $builder->get();
+		return $query->getRowArray();
+	}
+
+    function hapus($id)
+	{
+		$builder = $this->table($this->table);
+		$builder->where($this->primaryKey, $id);
+		if($builder->delete()){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+
 
 }
