@@ -33,14 +33,18 @@ class TahunAkademik extends BaseController
 				
 				$aksi = $datatable->hapus($this->request->getVar('id'));
 				if($aksi == true){
-					session()->setFlashdata('success', 'Data telah dihapus');
+                    session()->setFlashdata('success', 'Data telah dihapus');
+					//echo json_encode(array("status" => TRUE));
 				}else{
-					session()->setFlashdata('warning', ['Data gagal dihapus']);
+                    session()->setFlashdata('warning', 'Data gagal dihapus');
+					//echo json_encode(array("status" => false));
 				}
 			}
 			return redirect()->to("admin/".$this->halaman_controller);
 		}
         $data['templateJudul'] = $this->halaman_label;
+        $data['controller'] = $this->halaman_controller;
+        $data['metode']    = 'index';
 
         return view("admin/".$this->halaman_controller."/view", $data);
     }
@@ -56,7 +60,7 @@ class TahunAkademik extends BaseController
             $no = $request->getPost('start');
 
             foreach ($lists as $list) {
-                $link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
+                //$link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
                 $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_tahun_akademik;
                 $no++;
                 $row = [];
@@ -64,7 +68,7 @@ class TahunAkademik extends BaseController
                 $row[] = $list->tahun_akademik;
                 $row[] = $list->semester==1?'Ganjil':'Genap';
                 $row[] = $list->is_aktif=='Y'?'Aktif':'Tidak Aktif';
-                $row[] = '<a href="'.$link_delete.'" onclick="hapus(); return false;" class="btn btn-sm btn-danger"> Del</a>
+                $row[] = '<a onclick="hapus('.$list->id_tahun_akademik.'); return false;" class="btn btn-sm btn-danger"> Del</a>
                             <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
                         ';
                 $data[] = $row;

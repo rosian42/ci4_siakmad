@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- SweetAlert2 -->
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+  <!-- Toastr -->
+  <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/toastr/toastr.min.css">
   	<!-- Theme style -->
 	<link rel="stylesheet" href="<?=base_url('assets/admin');?>/dist/css/adminlte.min.css">
 <?php
@@ -37,7 +39,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="float-right">
-	            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$halaman/tambah")?>">Tambah</a>
+	            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$controller/tambah")?>">Tambah</a>
 	            </div>
               </div>
               <!-- /.card-header -->
@@ -99,36 +101,45 @@
 <script src="<?=base_url('assets/admin');?>/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="<?=base_url('assets/admin');?>/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="<?=base_url('assets/admin');?>/plugins/toastr/toastr.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 
 <script>
+  var table;
   $(function () {
     
-    $('#data').DataTable({
-		"paging": true,
-		"lengthChange": true,
-		"searching": true,
-		"ordering": false,
-		"info": false,
-		"autoWidth": false,
-		"responsive": true,
+    table = $('#data').DataTable({
+    		"paging": true,
+    		"lengthChange": true,
+    		"searching": true,
+    		"ordering": false,
+    		"info": false,
+    		"autoWidth": false,
+    		"responsive": true,
 
-		"processing": true,
-		"serverSide": true,
-		"order": [],
-		"ajax": {
-			"url": "<?php echo site_url("admin/$halaman/ajaxList") ?>",
-			"type": "POST"
-		},
-		"columnDefs": [{
-			"targets": [],
-			"orderable": false,
-		}, ],
+    		"processing": true,
+    		"serverSide": true,
+    		"order": [],
+    		"ajax": {
+    			"url": "<?php echo site_url("admin/$controller/ajaxList") ?>",
+    			"type": "POST"
+    		},
+    		"columnDefs": [{
+    			"targets": [],
+    			"orderable": false,
+    		}, ],
     });
   });
 
-  function hapus() {
+  function reload_table()
+  {
+      table.ajax.reload(null,false); //reload datatable ajax 
+  }
+
+  function hapus(id) {
+    var link = "<?=site_url("admin/$controller/?aksi=hapus&id=")?>"+id;
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -139,15 +150,64 @@
       confirmButtonText: 'Yes, delete it!',
       allowOutsideClick: false
     }).then((result) => {
+      window.location.href = link;
+      /*
       if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
+        $.ajax({
+             url:"<?php echo site_url('admin/');?><?=$controller;?>",
+             type:"get",
+             data: {aksi:hapus, id:id},
+             dataType:'json',
+             success: function(data){
+                  if (data.status) {
+                      
+                      Swal.fire({
+                        title: "Berhasil....!",
+                        text: "Data berhasil dihapus",
+                        icon: "success",
+                      }).then(function () {
+                        reload_table();
+              
+                      });
+                  }else{
+                      
+                      Swal.fire({
+                        title: "Ooooppsss....!",
+                        text: " Gagal. ",
+                        icon: "error",
+                  }).then(function () {
+                      reload_table();
+              
+                  });
+                    } 
+             },
+             error: function (xhr, ajaxOptions, thrownError) {
+              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+         });
+        
       }
+      */
     });
   }
 </script>
+
+<?php 
+    $session = \Config\Services::session();
+    if($session->getFlashdata('warning')):?>
+        <script type="text/javascript">
+                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+        </script>
+
+<?php elseif($session->getFlashdata('success')):?>
+        <script type="text/javascript">
+                toastr.success("<?php echo $session->getFlashdata('success')?>");
+                
+        </script>
+        
+<?php else:?>
+
+<?php endif;?>
+
 
 <?= $this->endSection();?>
