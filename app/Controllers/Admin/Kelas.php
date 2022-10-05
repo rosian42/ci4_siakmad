@@ -29,8 +29,9 @@ class Kelas extends BaseController
 
         $data = [];
         if($this->request->getVar('aksi')=='hapus' && $this->request->getVar('id')){
-            $dataTingkatanKelas = $datatable->getData($this->request->getVar('id'));
-            if($dataTingkatanKelas['kd_kelas']){ #memastikan ada data
+            $dataKelas = $datatable->getData($this->request->getVar('id'));
+            //dd($dataKelas);
+            if($dataKelas['kd_kelas']){ #memastikan ada data
                 
                 $aksi = $datatable->hapus($this->request->getVar('id'));
                 if($aksi == true){
@@ -69,7 +70,7 @@ class Kelas extends BaseController
                 $row[] = $list->kd_kelas;
                 $row[] = $list->nm_kelas;
                 $row[] = $list->nm_tingkatan_kelas;
-                $row[] = '<a onclick="hapus('.$list->kd_kelas.'); return false;" class="btn btn-sm btn-danger"> Del</a>
+                $row[] = '<a onclick="hapus('."'".$list->kd_kelas."'".'); return false;" class="btn btn-sm btn-danger"> Del</a>
                             <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
                         ';
                 $data[] = $row;
@@ -92,10 +93,7 @@ class Kelas extends BaseController
         $model = new KelasModel($request);
         
         $data = [];
-        $data['templateJudul'] = $this->halaman_label;
-        $data['controller'] = $this->halaman_controller;
-        $data['metode']    = 'tambah';
-        $data['validation'] = $this->validation;
+        
 
         if($this->request->getMethod()=="post"){
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
@@ -124,7 +122,8 @@ class Kelas extends BaseController
 
             if(!$this->validate($aturan)){
                 
-                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+               // return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                session()->setFlashdata('validation', $this->validation);
             }else{
                 
                 $record = [
@@ -139,13 +138,17 @@ class Kelas extends BaseController
                     $id = $aksi;
                     //dd($aksi);
                     session()->setFlashdata('success', 'Data berhasil disimpan');
-                    return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);
+                    return redirect()->to('admin/'.$this->halaman_controller);
                 }else{
-                    session()->setFlashdata('warning', ['Gagal menyimpan artikel']);
+                    session()->setFlashdata('warning', ['Gagal menyimpan data']);
                     return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
                 }
             }
         }
+        $data['templateJudul'] = $this->halaman_label;
+        $data['controller'] = $this->halaman_controller;
+        $data['metode']    = 'tambah';
+        $data['validation'] = $this->validation;
 
         return view('admin/'.$this->halaman_controller.'/tambah', $data);
     }
@@ -186,7 +189,8 @@ class Kelas extends BaseController
             
 
             if(!$this->validate($aturan)){
-                return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                //return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                session()->setFlashdata('validation', $this->validation);
             }else{
                 
                 $record = [
@@ -199,7 +203,7 @@ class Kelas extends BaseController
                 if($aksi != false){
                     
                     session()->setFlashdata('success', 'Data berhasil diupdate');
-                    return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);
+                    return redirect()->to('admin/'.$this->halaman_controller);
                 }else{
                     session()->setFlashdata('warning', ['Gagal update data']);
                     return redirect()->to('admin/'.$this->halaman_controller.'/edit/'.$id);

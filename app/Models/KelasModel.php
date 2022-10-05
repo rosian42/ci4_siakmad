@@ -115,6 +115,15 @@ class KelasModel extends Model
             $data[$key]=bersihkan_html($value);
         }
 
+        $dataKelas = $this->getData($data['kd_kelas']);
+        if (empty($dataKelas)) {
+            $builder->insert($data);
+            return true;
+        }else{
+            $builder->update($data['kd_kelas'], $data);
+            return true;
+        }
+        /*
         if(isset($data['kd_kelas'])){
             $aksi = $builder->insert($data);
             $id = $data['kd_kelas'];
@@ -128,6 +137,7 @@ class KelasModel extends Model
         }else{
             return false;
         }
+        */
     }
 
     //fungsi ambil data

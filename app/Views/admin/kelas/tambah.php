@@ -42,7 +42,7 @@
                   <div class="form-group row">
                     <label for="kd_kelas" class="col-sm-2 col-form-label">Kode Kelas</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control <?=($validation->hasError('kd_kelas'))?'is-invalid':'';?>" id="kd_kelas" name="kd_kelas" placeholder="Misal : 1-A" value="<?php echo (isset($kd_kelas))?$kd_kelas:old('kd_kelas')?>">
+                      <input type="text" <?=($metode=='tambah')?'':'readonly';?> class="form-control <?=($validation->hasError('kd_kelas'))?'is-invalid':'';?>" id="kd_kelas" name="kd_kelas" placeholder="Misal : 1-A" value="<?php echo (isset($kd_kelas))?$kd_kelas:''?>">
                       <div class="invalid-feedback">
                         <?=$validation->getError('kd_kelas');?>
                       </div>
@@ -53,7 +53,7 @@
                   <div class="form-group row">
                     <label for="nm_kelas" class="col-sm-2 col-form-label">Nama Kelas</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control <?=($validation->hasError('nm_kelas'))?'is-invalid':'';?>" id="nm_kelas" name="nm_kelas" placeholder="Mis. : Kelas 1-A" value="<?php echo (isset($nm_kelas))?$nm_kelas:old('nm_kelas')?>">
+                      <input type="text" class="form-control <?=($validation->hasError('nm_kelas'))?'is-invalid':'';?>" id="nm_kelas" name="nm_kelas" placeholder="Mis. : Kelas 1-A" value="<?php echo (isset($nm_kelas))?$nm_kelas:''?>">
                       <div class="invalid-feedback">
                         <?=$validation->getError('nm_kelas');?>
                       </div>
@@ -61,11 +61,13 @@
                     </div>
                   </div>
 
-                  <div class="form-group row">
+                  <div class="form-group row ">
                     <label  class="col-sm-2 col-form-label">Tingkat Kelas</label>
                     <div class="col-sm-10">
                         <?php
-                          echo cmb_dinamis('kd_tingkatan', 'tb_tingkatan_kelas', 'nm_tingkatan_kelas', 'id_tingkatan_kelas');
+                          $selected =(isset($kd_tingkatan))?$kd_tingkatan:'';
+                          $extra = ($validation->hasError('kd_tingkatan'))?'is-invalid':'';
+                          echo cmb_dinamis('kd_tingkatan', 'tb_tingkatan_kelas', 'nm_tingkatan_kelas', 'id_tingkatan_kelas', $selected, $extra);
                         ?>
                       <div class="invalid-feedback">
                           <?=$validation->getError('kd_tingkatan');?>

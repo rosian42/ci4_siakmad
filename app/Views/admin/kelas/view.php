@@ -136,6 +136,7 @@
   }
 
   function hapus(id) {
+    
     var link = "<?=site_url("admin/$controller/?aksi=hapus&id=")?>"+id;
     Swal.fire({
       title: 'Are you sure?',
@@ -193,7 +194,7 @@
     $session = \Config\Services::session();
     if($session->getFlashdata('warning')):?>
         <script type="text/javascript">
-                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+                toastr.error("<?php echo $session->getFlashdata('warning')?>");
         </script>
 
 <?php elseif($session->getFlashdata('success')):?>

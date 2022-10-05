@@ -116,7 +116,7 @@ function cmb_dinamis($name, $table, $field, $pk, $selected=null, $extra=null)
 		$db      = \Config\Database::connect();
 		$builder = $db->table($table);
 		//$ci   = get_instance();
-		$cmb  = "<select name='$name' class='form-control select2' $extra><option ></option>";
+		$cmb  = "<select name='$name' class='form-control select2 $extra' ><option ></option>";
 
 		$data = $builder->get()->getResult();
 		foreach ($data as $row) {
