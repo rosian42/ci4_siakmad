@@ -11,12 +11,12 @@ class KelasModel extends Model
     protected $DBGroup          = 'default';
     protected $table            = 'tb_kelas';
     protected $primaryKey       = 'kd_kelas';
-    protected $useAutoIncrement = false;
+    //protected $useAutoIncrement = false;
     //protected $insertID         = 0;
     //protected $returnType       = 'array';
     //protected $useSoftDeletes   = false;
     //protected $protectFields    = true;
-    protected $allowedFields    = ['nm_kelas', 'kd_tingkatan'];
+    protected $allowedFields    = ['kd_kelas','nm_kelas', 'kd_tingkatan'];
 
     // Dates
     //protected $useTimestamps = false;
@@ -60,6 +60,7 @@ class KelasModel extends Model
 
     private function getDatatablesQuery()
     {
+        $this->dt->join('tb_tingkatan_kelas','tb_tingkatan_kelas.id_tingkatan_kelas = tb_kelas.kd_tingkatan','left');
         $i = 0;
         foreach ($this->column_search as $item) {
             if ($this->request->getPost('search')['value']) {
@@ -115,7 +116,7 @@ class KelasModel extends Model
         }
 
         if(isset($data['kd_kelas'])){
-            $aksi = $builder->save($data);
+            $aksi = $builder->insert($data);
             $id = $data['kd_kelas'];
         }else{
             $aksi = $builder->save($data);

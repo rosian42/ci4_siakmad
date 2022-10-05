@@ -65,9 +65,10 @@ class Kelas extends BaseController
                 $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->kd_kelas;
                 $no++;
                 $row = [];
+                $row[] = $no;
                 $row[] = $list->kd_kelas;
                 $row[] = $list->nm_kelas;
-                $row[] = $list->kd_tingkatan;
+                $row[] = $list->nm_tingkatan_kelas;
                 $row[] = '<a onclick="hapus('.$list->kd_kelas.'); return false;" class="btn btn-sm btn-danger"> Del</a>
                             <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
                         ';
@@ -88,7 +89,7 @@ class Kelas extends BaseController
     public function tambah()
     {
         $request = Services::request();
-        $model = new TingkatanKelasModel($request);
+        $model = new KelasModel($request);
         
         $data = [];
         $data['templateJudul'] = $this->halaman_label;
@@ -103,7 +104,7 @@ class Kelas extends BaseController
                     'rules' => 'required|is_unique[tb_kelas.kd_kelas]',
                     'errors' => [
                         'required'=>'Kode kelas harus diisi',
-                        'is_unique' => 'Kode kelas '.$this->request->getVar('id_tingkatan_kelas').' sudah ada. Silahkan buat kode yang lain'
+                        'is_unique' => 'Kode kelas '.$this->request->getVar('kd_kelas').' sudah ada. Silahkan buat kode yang lain'
                     ]
                 ],
                 'nm_kelas' => [

@@ -40,46 +40,44 @@
               <form class="form-horizontal" action="" method="post">
                 <div class="card-body">
                   <div class="form-group row">
-                    <label for="tahun_akademik" class="col-sm-2 col-form-label">Tahun Akademik</label>
+                    <label for="kd_kelas" class="col-sm-2 col-form-label">Kode Kelas</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control <?=($validation->hasError('tahun_akademik'))?'is-invalid':'';?>" id="tahun_akademik" name="tahun_akademik" placeholder="2022-2023" value="<?php echo (isset($tahun_akademik))?$tahun_akademik:""?>">
+                      <input type="text" class="form-control <?=($validation->hasError('kd_kelas'))?'is-invalid':'';?>" id="kd_kelas" name="kd_kelas" placeholder="Misal : 1-A" value="<?php echo (isset($kd_kelas))?$kd_kelas:old('kd_kelas')?>">
                       <div class="invalid-feedback">
-                        <?=$validation->getError('tahun_akademik');?>
+                        <?=$validation->getError('kd_kelas');?>
                       </div>
 
                     </div>
                   </div>
+
                   <div class="form-group row">
-                    <label  class="col-sm-2 col-form-label">Semester</label>
+                    <label for="nm_kelas" class="col-sm-2 col-form-label">Nama Kelas</label>
                     <div class="col-sm-10">
-                      <select name="semester" class="form-control select2 <?=($validation->hasError('semester'))?'is-invalid':'';?>">
-                        <option></option>
-                        <option value="1" <?php echo (isset($semester) && $semester=="1")?"selected":"";?>> Ganjil </option>
-                        <option value="2" <?php echo (isset($semester) && $semester=="2")?"selected":"";?>> Genap </option>
-                      </select>
+                      <input type="text" class="form-control <?=($validation->hasError('nm_kelas'))?'is-invalid':'';?>" id="nm_kelas" name="nm_kelas" placeholder="Mis. : Kelas 1-A" value="<?php echo (isset($nm_kelas))?$nm_kelas:old('nm_kelas')?>">
                       <div class="invalid-feedback">
-                          <?=$validation->getError('semester');?>
+                        <?=$validation->getError('nm_kelas');?>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="form-group row">
+                    <label  class="col-sm-2 col-form-label">Tingkat Kelas</label>
+                    <div class="col-sm-10">
+                        <?php
+                          echo cmb_dinamis('kd_tingkatan', 'tb_tingkatan_kelas', 'nm_tingkatan_kelas', 'id_tingkatan_kelas');
+                        ?>
+                      <div class="invalid-feedback">
+                          <?=$validation->getError('kd_tingkatan');?>
                         </div>
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label  class="col-sm-2 col-form-label">is Active</label>
-                    <div class="col-sm-10">
-                      <select name="is_aktif" class="form-control select2 <?=($validation->hasError('is_aktif'))?'is-invalid':'';?>">
-                        <option></option>
-                        <option value="Y" <?php echo (isset($is_aktif) && $is_aktif=="Y")?"selected":"";?>> Aktif </option>
-                        <option value="N" <?php echo (isset($is_aktif) && $is_aktif=="N")?"selected":"";?>> Tidak Aktif </option>
-                      </select>
-                      <div class="invalid-feedback">
-                          <?=$validation->getError('is_aktif');?>
-                        </div>
-                      </div>
-                  </div>
+                
                   
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Simpan</button>
+                  <input type="submit" class="btn btn-info float-right" value="SIMPAN" />
                 </div>
                 <!-- /.card-footer -->
               </form>
@@ -108,7 +106,7 @@
 $(function () {
     //Initialize Select2 Elements
   $('.select2').select2({
-    placeholder: "Select a state",
+    placeholder: "----Pilih Opsi----",
     allowClear: true
   });
 	
