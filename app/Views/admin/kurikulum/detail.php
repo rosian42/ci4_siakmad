@@ -1,6 +1,8 @@
 <?= $this->extend('layout/admin');?>
 <?= $this->section('content');?>
-
+<!-- Select2 -->
+    <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <!-- DataTables -->
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
@@ -32,36 +34,64 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="float-right">
-	            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$controller/tambah")?>">Tambah</a>
-	            </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="data" class="table table-bordered table-hover">
-                  <thead>
-                  <tr>
-                  	<th>No</th>
-                    <th>Kode Mata Pelajaran</th>
-                    <th>Nama Mata Pelajaran</th>
-                    <th>Aksi</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  
-                  </tbody>
-                  
-                </table>
-              </div>
-              <!-- /.card-body -->
+            <div class="col-md-4">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        Filter
+                        </h3>
+                    </div>
+                    <div class="card-body pad table-responsive">
+                        <div class="form-group row ">
+                            <label  class="col-sm-4 col-form-label">Tingkat Kelas</label>
+                            <div class="col-sm-8">
+                                <?php
+                                
+                                echo cmb_dinamis('kd_tingkatan', 'tb_tingkatan_kelas', 'nm_tingkatan_kelas', 'id_tingkatan_kelas');
+                                ?>
+                            
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a class="btn btn-sm btn-primary" href="<?=base_url("admin/$controller")?>">Kembali</a>
+                        <a class="btn btn-sm btn-primary" href="javascript:void()" onclick="reload_table()">Refresh Tabel</a>
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
             </div>
-            <!-- /.card -->
-
-          </div>
-          <!-- /.col -->
+            <!-- /.col -->
+            <div class="col-md-8">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                        <i class="fas fa-edit"></i>
+                        Data Pelajaran
+                        </h3>
+                    </div>
+                    <div class="card-body pad table-responsive">
+                        <table id="data" class="table table-bordered table-hover">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kode</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Aksi</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        
+                        </table>
+                    </div>
+                    
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
         </div>
         <!-- /.row -->
       </div>
@@ -99,6 +129,8 @@
 <script src="<?=base_url('assets/admin');?>/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- Toastr -->
 <script src="<?=base_url('assets/admin');?>/plugins/toastr/toastr.min.js"></script>
+<!-- Select2 -->
+<script src="<?=base_url('assets/admin');?>/plugins/select2/js/select2.full.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 
@@ -119,13 +151,19 @@
     		"serverSide": true,
     		"order": [],
     		"ajax": {
-    			"url": "<?php echo site_url("admin/$controller/ajaxList") ?>",
+    			"url": "<?php echo site_url("admin/$controller/ajaxListDetailKurikulum") ?>",
     			"type": "POST"
     		},
     		"columnDefs": [{
     			"targets": [],
     			"orderable": false,
     		}, ],
+    });
+
+      //Initialize Select2 Elements
+    $('.select2').select2({
+        placeholder: "----Pilih Opsi----",
+        allowClear: true
     });
   });
 
@@ -192,7 +230,7 @@
     $session = \Config\Services::session();
     if($session->getFlashdata('warning')):?>
         <script type="text/javascript">
-                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+                toastr.error("<?php echo $session->getFlashdata('warning')?>");
         </script>
 
 <?php elseif($session->getFlashdata('success')):?>

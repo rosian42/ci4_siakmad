@@ -45,8 +45,8 @@
                   <thead>
                   <tr>
                   	<th>No</th>
-                    <th>Kode Mata Pelajaran</th>
-                    <th>Nama Mata Pelajaran</th>
+                    <th>Nama Kurikulum</th>
+                    <th>Is Aktif</th>
                     <th>Aksi</th>
                   </tr>
                   </thead>
@@ -192,7 +192,7 @@
     $session = \Config\Services::session();
     if($session->getFlashdata('warning')):?>
         <script type="text/javascript">
-                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+                toastr.error("<?php echo $session->getFlashdata('warning')?>");
         </script>
 
 <?php elseif($session->getFlashdata('success')):?>

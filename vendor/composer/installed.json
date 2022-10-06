@@ -343,6 +343,68 @@
             "install-path": "../fakerphp/faker"
         },
         {
+            "name": "irsyadulibad/codeigniter4-datatables",
+            "version": "3.0.0",
+            "version_normalized": "3.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/irsyadulibad/ci4-datatables.git",
+                "reference": "ec0379240020a6eefd7af5e51efff2daaeb7098c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/irsyadulibad/ci4-datatables/zipball/ec0379240020a6eefd7af5e51efff2daaeb7098c",
+                "reference": "ec0379240020a6eefd7af5e51efff2daaeb7098c",
+                "shasum": ""
+            },
+            "require": {
+                "codeigniter4/framework": "^4",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "fakerphp/faker": "^1.19",
+                "phpstan/phpstan": "^1.6",
+                "phpunit/phpunit": "^9.5"
+            },
+            "time": "2022-05-10T08:12:54+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "Irsyadulibad\\DataTables\\": "src/"
+                },
+                "exclude-from-classmap": [
+                    "**/Database/Migrations/**"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmad Irsyadul Ibad",
+                    "email": "ahmadirsyadulibad7@gmail.com",
+                    "homepage": "http://irsyadulibad.my.id",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Server side DataTables library for CodeIgniter4 framework",
+            "keywords": [
+                "codeigniter",
+                "datatables",
+                "server side"
+            ],
+            "support": {
+                "issues": "https://github.com/irsyadulibad/ci4-datatables/issues",
+                "source": "https://github.com/irsyadulibad/ci4-datatables/tree/3.0.0"
+            },
+            "install-path": "../irsyadulibad/codeigniter4-datatables"
+        },
+        {
             "name": "kint-php/kint",
             "version": "4.2.2",
             "version_normalized": "4.2.2.0",

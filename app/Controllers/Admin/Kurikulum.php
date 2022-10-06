@@ -4,11 +4,13 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 
-use App\Models\MapelModel;
+use App\Models\KurikulumModel;
 
 use Config\Services;
 
-class Mapel extends BaseController
+use Irsyadulibad\DataTables\DataTables;
+
+class Kurikulum extends BaseController
 {
     function __construct()
     {
@@ -17,20 +19,20 @@ class Mapel extends BaseController
         
         helper('global_helper');
         //untuk konfigurasi internal
-        $this->halaman_controller = "mapel";
-        $this->halaman_label = "Mata Pelajaran";
+        $this->halaman_controller = "kurikulum";
+        $this->halaman_label = "Kurikulum";
     }
 
     public function index()
     {
         $request = Services::request();
-        $datatable = new MapelModel($request);
+        $datatable = new KurikulumModel($request);
 
         $data = [];
         if($this->request->getVar('aksi')=='hapus' && $this->request->getVar('id')){
-            $dataMapel = $datatable->getData($this->request->getVar('id'));
+            $dataKurikulum = $datatable->getData($this->request->getVar('id'));
             //dd($dataKelas);
-            if($dataMapel['id_mapel']){ #memastikan ada data
+            if($dataKurikulum['id_kurikulum']){ #memastikan ada data
                 
                 $aksi = $datatable->hapus($this->request->getVar('id'));
                 if($aksi == true){
@@ -53,7 +55,7 @@ class Mapel extends BaseController
     function ajaxList()
     {
         $request = Services::request();
-        $datatable = new MapelModel($request);
+        $datatable = new KurikulumModel($request);
 
         if ($request->getMethod(true) === 'POST') {
             $lists = $datatable->getDatatables();
@@ -62,14 +64,16 @@ class Mapel extends BaseController
 
             foreach ($lists as $list) {
                 //$link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
-                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_mapel;
+                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_kurikulum;
+                $link_detail = site_url("admin/$this->halaman_controller/detail/").$list->id_kurikulum;
                 $no++;
                 $row = [];
                 $row[] = $no;
-                $row[] = $list->kd_mapel;
-                $row[] = $list->nm_mapel;
-                $row[] = '<a onclick="hapus('."'".$list->id_mapel."'".'); return false;" class="btn btn-sm btn-danger"> Del</a>
-                            <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
+                $row[] = $list->nm_kurikulum;
+                $row[] = $list->is_aktif=='Y'?'Aktif':'Tidak Aktif';
+                $row[] = '<a onclick="hapus('."'".$list->id_kurikulum."'".'); return false;" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
+                            <a href="'.$link_edit.'" class="btn btn-xs btn-warning" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a> 
+                            <a href="'.$link_detail.'" class="btn btn-xs btn-primary" data-placement="top" title="Detail"><i class="fa fa-eye"></i></a>
                         ';
                 $data[] = $row;
             }
@@ -88,7 +92,7 @@ class Mapel extends BaseController
     public function tambah()
     {
         $request = Services::request();
-        $model = new MapelModel($request);
+        $model = new KurikulumModel($request);
         
         $data = [];
         
@@ -96,17 +100,16 @@ class Mapel extends BaseController
         if($this->request->getMethod()=="post"){
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
             $aturan = [
-                'kd_mapel' => [
-                    'rules' => 'required|is_unique[tb_mapel.kd_mapel]',
-                    'errors' => [
-                        'required'=>'Kode mata pelajaran harus diisi',
-                        'is_unique' => 'Kode mata pelajaran '.$this->request->getVar('kd_mapel').' sudah ada. Silahkan buat kode yang lain'
-                    ]
-                ],
-                'nm_mapel' => [
+                'nm_kurikulum' => [
                     'rules' => 'required',
                     'errors' => [
-                        'required'=>'Nama mata pelajaran tidak boleh kosong'
+                        'required'=>'Nama kurikulum harus diisi'
+                    ]
+                ],
+                'is_aktif' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Pilih aktif atau tidak aktif'
                     ]
                 ]
             ];
@@ -119,8 +122,8 @@ class Mapel extends BaseController
             }else{
                 
                 $record = [
-                    'kd_mapel' => $this->request->getVar('kd_mapel'),
-                    'nm_mapel' => $this->request->getVar('nm_mapel')
+                    'nm_kurikulum' => $this->request->getVar('nm_kurikulum'),
+                    'is_aktif' => $this->request->getVar('is_aktif')
 
                 ];
                 //dd($record);
@@ -147,28 +150,27 @@ class Mapel extends BaseController
     function edit($id)
     {
         $request = Services::request();
-        $model = new MapelModel($request);
+        $model = new KurikulumModel($request);
         
         $data = [];
-        $dataMapel = $model->getData($id);
-        if(empty($dataMapel)){
+        $dataKurikulum = $model->getData($id);
+        if(empty($dataKurikulum)){
             return redirect()->to('admin/'.$this->halaman_controller);
         }
-        $data = $dataMapel;
+        $data = $dataKurikulum;
         if($this->request->getMethod()=="post"){
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
             $aturan = [
-                'kd_mapel' => [
-                    'rules' => 'required|is_unique[tb_mapel.kd_mapel]',
-                    'errors' => [
-                        'required'=>'Kode kelas harus diisi',
-                        'is_unique' => 'Kode mata pelajaran '.$this->request->getVar('kd_mapel').' sudah ada. Silahkan buat kode yang lain'
-                    ]
-                ],
-                'nm_mapel' => [
+                'nm_kurikulum' => [
                     'rules' => 'required',
                     'errors' => [
-                        'required'=>'Nama mata pelajaran tidak boleh kosong'
+                        'required'=>'Nama kurikulum harus diisi'
+                    ]
+                ],
+                'is_aktif' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Pilih aktif atau tidak aktif'
                     ]
                 ]
             ];
@@ -180,9 +182,9 @@ class Mapel extends BaseController
             }else{
                 
                 $record = [
-                    'id_mapel' => $id,
-                    'kd_mapel' => $this->request->getVar('kd_mapel'),
-                    'nm_mapel' => $this->request->getVar('nm_mapel')
+                    'id_kurikulum' => $id,
+                    'nm_kurikulum' => $this->request->getVar('nm_kurikulum'),
+                    'is_aktif' => $this->request->getVar('is_aktif')
                 ];
                 
                 $aksi = $model->simpanData($record);
@@ -204,5 +206,78 @@ class Mapel extends BaseController
         
         return view('admin/'.$this->halaman_controller.'/tambah', $data);
         
+    }
+
+    public function detail($id)
+    {
+        $request = Services::request();
+        $datatable = new KurikulumModel($request);
+
+        $data = [];
+        $dataKurikulum = $datatable->getData($id);
+        if(empty($dataKurikulum)){
+            return redirect()->to('admin/'.$this->halaman_controller);
+        }
+        $data = $dataKurikulum;
+        /*
+        if($this->request->getVar('aksi')=='hapus' && $this->request->getVar('id')){
+            $dataKurikulumDetail = $datatable->getDetail($this->request->getVar('id'));
+            //dd($dataKelas);
+            if($dataKurikulumDetail['id_kurikulum_detail']){ #memastikan ada data
+                
+                $aksi = $datatable->hapus($this->request->getVar('id'));
+                if($aksi == true){
+                    session()->setFlashdata('success', 'Data telah dihapus');
+                    //echo json_encode(array("status" => TRUE));
+                }else{
+                    session()->setFlashdata('warning', 'Data gagal dihapus');
+                    //echo json_encode(array("status" => false));
+                }
+            }
+            return redirect()->to("admin/".$this->halaman_controller);
+        }
+        */
+        $data['templateJudul'] = $dataKurikulum['nm_kurikulum'];
+        $data['controller'] = $this->halaman_controller;
+        $data['metode']    = 'detail';
+
+        return view("admin/".$this->halaman_controller."/detail", $data);
+    }
+
+    function ajaxListDetailKurikulum()
+    {
+        $request = Services::request();
+        $datatable = new KurikulumModel($request);
+
+        if ($request->getMethod(true) === 'POST') {
+            $lists = $datatable->getDatatables();
+            $data = [];
+            $no = $request->getPost('start');
+
+            foreach ($lists as $list) {
+                //$link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
+                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_kurikulum;
+                $link_detail = site_url("admin/$this->halaman_controller/detail/").$list->id_kurikulum;
+                $no++;
+                $row = [];
+                $row[] = $no;
+                $row[] = $list->nm_kurikulum;
+                $row[] = $list->is_aktif=='Y'?'Aktif':'Tidak Aktif';
+                $row[] = '<a onclick="hapus('."'".$list->id_kurikulum."'".'); return false;" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
+                            <a href="'.$link_edit.'" class="btn btn-xs btn-warning" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a> 
+                            <a href="'.$link_detail.'" class="btn btn-xs btn-primary" data-placement="top" title="Detail"><i class="fa fa-eye"></i></a>
+                        ';
+                $data[] = $row;
+            }
+
+            $output = [
+                'draw' => $request->getPost('draw'),
+                'recordsTotal' => $datatable->countAll(),
+                'recordsFiltered' => $datatable->countFiltered(),
+                'data' => $data
+            ];
+
+            echo json_encode($output);
+        }
     }
 }

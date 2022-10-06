@@ -40,28 +40,16 @@
               <form class="form-horizontal" action="" method="post">
                 <div class="card-body">
                   <div class="form-group row">
-                    <label for="tahun_akademik" class="col-sm-2 col-form-label">Tahun Akademik</label>
+                    <label for="nm_kurikulum" class="col-sm-2 col-form-label">Nama Kurikulum</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control <?=($validation->hasError('tahun_akademik'))?'is-invalid':'';?>" id="tahun_akademik" name="tahun_akademik" placeholder="2022-2023" value="<?php echo (isset($tahun_akademik))?$tahun_akademik:""?>">
+                      <input type="text" class="form-control <?=($validation->hasError('nm_kurikulum'))?'is-invalid':'';?>" id="nm_kurikulum" name="nm_kurikulum" placeholder="Misal : Kurikulum K-13" value="<?php echo (isset($nm_kurikulum))?$nm_kurikulum:''?>">
                       <div class="invalid-feedback">
-                        <?=$validation->getError('tahun_akademik');?>
+                        <?=$validation->getError('nm_kurikulum');?>
                       </div>
 
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label  class="col-sm-2 col-form-label">Semester</label>
-                    <div class="col-sm-10">
-                      <select name="semester" class="form-control select2 <?=($validation->hasError('semester'))?'is-invalid':'';?>">
-                        <option></option>
-                        <option value="1" <?php echo (isset($semester) && $semester=="1")?"selected":"";?>> Ganjil </option>
-                        <option value="2" <?php echo (isset($semester) && $semester=="2")?"selected":"";?>> Genap </option>
-                      </select>
-                      <div class="invalid-feedback">
-                          <?=$validation->getError('semester');?>
-                        </div>
-                    </div>
-                  </div>
+
                   <div class="form-group row">
                     <label  class="col-sm-2 col-form-label">is Active</label>
                     <div class="col-sm-10">
@@ -75,11 +63,12 @@
                         </div>
                       </div>
                   </div>
+                
                   
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-info float-right">Simpan</button>
+                  <input type="submit" class="btn btn-info float-right" value="SIMPAN" />
                 </div>
                 <!-- /.card-footer -->
               </form>
@@ -119,7 +108,7 @@ $(function () {
     $session = \Config\Services::session();
     if($session->getFlashdata('warning')):?>
         <script type="text/javascript">
-                toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+                toastr.error("<?php echo $session->getFlashdata('warning')?>");
         </script>
 
 <?php elseif($session->getFlashdata('success')):?>
