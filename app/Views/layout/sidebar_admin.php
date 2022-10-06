@@ -58,53 +58,45 @@
               
             </ul>
           </li>
+          <li class="nav-header">ADMINISTRASI</li>
+          
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="nav-icon far fa-plus-square"></i>
+              <i class="fas fa-bars"></i>
               <p>
-                Administrasi
+                Data Master
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-bars"></i>
-                  <p>
-                    Data Master
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
+                <a href="<?=site_url('admin/tahunakademik')?>" class="nav-link">
+                  <i class="far fa-calendar-alt"></i>
+                  <p>Tahun Akademik</p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="<?=site_url('admin/tahunakademik')?>" class="nav-link">
-                      <i class="far fa-calendar-alt"></i>
-                      <p>Tahun Akademik</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?=site_url('admin/tingkatankelas')?>" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Tingkat Kelas</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?=site_url('admin/kelas')?>" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Kelas</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="../examples/recover-password.html" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Recover Password v1</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
-              
+              <li class="nav-item">
+                <a href="<?=site_url('admin/tingkatankelas')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Tingkat Kelas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?=site_url('admin/kelas')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kelas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="<?=site_url('admin/mapel')?>" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Mata Pelajaran</p>
+                </a>
+              </li>
             </ul>
           </li>
+              
+            
           
         </ul>
       </nav>
