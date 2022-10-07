@@ -111,12 +111,12 @@ function set_post_link($post_id)
 	return site_url($type.'/'.$seo);	
 }
 
-function cmb_dinamis($name, $table, $field, $pk, $selected=null, $extra=null)
+function cmb_dinamis($name, $table, $field, $pk, $selected=null, $extra=null, $event=null)
 	{
 		$db      = \Config\Database::connect();
 		$builder = $db->table($table);
 		//$ci   = get_instance();
-		$cmb  = "<select name='$name' class='form-control select2 $extra' ><option ></option>";
+		$cmb  = "<select name='$name' id='$name' class='form-control select2 $extra' $event ><option ></option>";
 
 		$data = $builder->get()->getResult();
 		foreach ($data as $row) {

@@ -61,12 +61,12 @@ class TingkatanKelas extends BaseController
 
             foreach ($lists as $list) {
                 //$link_delete = site_url("admin/$this->halaman_controller/?aksi=hapus&id=").$list->id_tahun_akademik;
-                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_tingkatan_kelas;
+                $link_edit = site_url("admin/$this->halaman_controller/edit/").$list->id_tingkat;
                 $no++;
                 $row = [];
                 $row[] = $list->id_tingkatan_kelas;
                 $row[] = $list->nm_tingkatan_kelas;
-                $row[] = '<a onclick="hapus('.$list->id_tingkatan_kelas.'); return false;" class="btn btn-sm btn-danger"> Del</a>
+                $row[] = '<a onclick="hapus('.$list->id_tingkat.'); return false;" class="btn btn-sm btn-danger"> Del</a>
                             <a href="'.$link_edit.'" class="btn btn-sm btn-warning"> Edit</a>
                         ';
                 $data[] = $row;
