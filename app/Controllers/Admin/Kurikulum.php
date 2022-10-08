@@ -8,7 +8,7 @@ use App\Models\KurikulumModel;
 
 use Config\Services;
 
-use Irsyadulibad\DataTables\DataTables;
+
 
 class Kurikulum extends BaseController
 {

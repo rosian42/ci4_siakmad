@@ -36,8 +36,8 @@
             <div class="card">
               <div class="card-header">
                 <div class="float-right">
-	            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$controller/tambah")?>">Tambah</a>
-	            </div>
+  	            	<a class="btn btn-sm btn-success" href="<?=base_url("admin/$controller/tambah")?>">Tambah</a>
+  	            </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">

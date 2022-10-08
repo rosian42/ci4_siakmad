@@ -45,13 +45,13 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?=site_url('admin/artikel')?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="nav-icon far fa-circle"></i>
                   <p>Artikel</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="<?=site_url('admin/page')?>" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                  <i class="nav-icon far fa-circle"></i>
                   <p>Page</p>
                 </a>
               </li>
@@ -62,7 +62,7 @@
           
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="fas fa-bars"></i>
+              <i class="nav-icon fas fa-bars"></i>
               <p>
                 Data Master
                 <i class="fas fa-angle-left right"></i>
@@ -71,7 +71,7 @@
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="<?=site_url('admin/tahunakademik')?>" class="nav-link">
-                  <i class="far fa-calendar-alt"></i>
+                  <i class="nav-icon far fa-calendar-alt"></i>
                   <p>Tahun Akademik</p>
                 </a>
               </li>
@@ -100,6 +100,14 @@
                 </a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a href="<?=site_url('admin/guru')?>" class="nav-link">
+              <i class="nav-icon far fa-user"></i>
+              <p>
+                Guru
+              </p>
+            </a>
           </li>
               
             
