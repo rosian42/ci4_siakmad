@@ -9,6 +9,7 @@ use Michalsn\Uuid\UuidModel;
 
 class GuruModel extends UuidModel
 {
+    protected $uuidFields = ['id_guru'];
     protected $DBGroup          = 'default';
     protected $table            = 'tb_guru';
     protected $primaryKey       = 'id_guru';
@@ -117,10 +118,10 @@ class GuruModel extends UuidModel
         }
 
         if(isset($data['id_guru'])){
-            $aksi = $builder->save($data);
+            $aksi = $builder->replace($data);
             $id = $data['id_guru'];
         }else{
-            $aksi = $builder->save($data);
+            $aksi = $builder->insert($data);
             $id = $builder->getInsertID();
         }
 

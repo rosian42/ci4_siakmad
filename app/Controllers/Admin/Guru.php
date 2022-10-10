@@ -67,7 +67,7 @@ class Guru extends BaseController
                 $row[] = $no;
                 $row[] = $list->nama_lengkap;
                 $row[] = $list->nip;
-                $row[] = $list->tmp_lahir.", ".$lis->tgl_lahir;
+                $row[] = $list->tmp_lahir.", ".$list->tgl_lahir;
                 $row[] = $list->foto;
                 $row[] = '<a onclick="hapus('."'".$list->id_guru."'".'); return false;" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
                             <a href="'.$link_edit.'" class="btn btn-xs btn-warning" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a> 
@@ -85,5 +85,119 @@ class Guru extends BaseController
 
             echo json_encode($output);
         }
+    }
+
+    public function tambah()
+    {
+        $request = Services::request();
+        $model = new GuruModel($request);
+        
+        $data = [];
+        
+
+        if($this->request->getMethod()=="post"){
+            $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
+            $aturan = [
+                'nuptk' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'NUPTK harus diisi'
+                    ]
+                ],
+                'nama_lengkap' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Nama lengkap harus diisi'
+                    ]
+                ],
+                'tmp_lahir' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Tempat lahir harus diisi'
+                    ]
+                ],
+                'tgl_lahir' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Tanggal lahir harus diisi'
+                    ]
+                ],
+                'alamat' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Alamat harus diisi'
+                    ]
+                ],
+                'no_telp' => [
+                    'rules' => 'required',
+                    'errors' => [
+                        'required'=>'Nomor telepon harus diisi'
+                    ]
+                ],
+                'email' => [
+                    'rules' => 'required|valid_email',
+                    'errors' => [
+                        'required'=>'Email harus diisi',
+                        'valid_email' => 'Alamat Email tidak valid'
+                    ]
+                ]
+            ];
+            //dd($this->request->getVar());
+            $file = $this->request->getFile('foto');
+
+            if(!$this->validate($aturan)){
+                
+               // return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                //dd($this->validation->getRules());
+                echo json_encode(array("status" => false, "validation" => $this->validation->getErrors()));
+                
+            }else{
+                $foto = "assets/admin/dist/img/no-pict.jpg";
+                if($file->getName()){
+                    $nm_foto = $file->getRandomName();
+                    //$nmFolder    = str_replace( "'", "", $this->request->getVar('nama_lengkap'));
+                    $foto = $nm_foto;
+                }
+                
+                /*
+                if (!is_dir(WRITEPATH.'berkas/'.$controller.'/'.$nmFolder)) {
+                    mkdir(WRITEPATH.'berkas/'.$controller.'/'.$nmFolder, 0777, TRUE);
+                }
+                */
+                
+                $record = [
+                    'nip' => $this->request->getVar('nuptk'),
+                    'nama_lengkap' => $this->request->getVar('nama_lengkap'),
+                    'tmp_lahir' => $this->request->getVar('tmp_lahir'),
+                    'tgl_lahir' => $this->request->getVar('tgl_lahir'),
+                    'alamat' => $this->request->getVar('alamat'),
+                    'no_telp' => $this->request->getVar('no_telp'),
+                    'email' => $this->request->getVar('email'),
+                    'foto' => $foto
+                ];
+                //dd($record);
+                $aksi = $model->simpanData($record);
+                if($aksi != false){
+                    $id = $aksi;
+                    //dd($aksi);
+                    if($file->getName()){
+                        //$lokasi_direktori = "upload";
+                        $lokasi_direktori = WRITEPATH.'upload';
+                        $file->move(WRITEPATH . 'uploads', $nm_foto);
+                    }
+                    echo json_encode(array("status" => true));
+                    
+                    //session()->setFlashdata('success', 'Data berhasil disimpan');
+                    //return redirect()->to('admin/'.$this->halaman_controller);
+                }else{
+                    //session()->setFlashdata('warning', ['Gagal menyimpan data']);
+                    //return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
+                    echo json_encode(array("status" => false));
+
+                }
+
+            }
+        }
+        
     }
 }

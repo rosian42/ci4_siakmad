@@ -85,119 +85,126 @@
 <div class="modal fade" id="tambahModal" data-backdrop="static"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Detail Kurikulum</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="form-horizontal" id="form_detail_kurikulum" enctype="multipart/form-data">
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">NUPTK</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="nuptk" name="nuptk"  />
+      <form class="form-horizontal" id="form_simpan" enctype="multipart/form-data">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Tambah Guru</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">NUPTK</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control" id="nuptk" name="nuptk"  />
+                  <div class="invalid-feedback">
+                    
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Nama Lengkap</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"  />
+                  
+                  <div class="invalid-feedback">
+                    
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Tempat Lahir</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control" id="tmp_lahir" name="tmp_lahir"  />
+                  
                 <div class="invalid-feedback">
-                  
-                </div>
+                    
+                  </div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Nama Lengkap</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"  />
-                
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Tgl Lahir</label>
+              <div class="col-sm-9">
+                  
+                  <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" id="tgl_lahir" data-toggle="datetimepicker" name="tgl_lahir" data-target="#reservationdate" placeholder="YYYY-MM-DD" />
+                      <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
+                      <div class="invalid-feedback">
+                    
+                      </div>
+                  </div>
+                  
+              </div>
+            </div>
+
+            
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Alamat</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control" id="alamat" name="alamat"  />
+                  
                 <div class="invalid-feedback">
-                  
-                </div>
+                    
+                  </div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Tempat Lahir</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="tmp_lahir" name="tmp_lahir"  />
-                
-              <div class="invalid-feedback">
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">No. Telp.</label>
+              <div class="col-sm-9">
+                  <input type="text" class="form-control" id="no_telp" name="no_telp" data-inputmask="'mask': ['9999-9999-999[9] [x99999]']" data-mask />
                   
-                </div>
+                <div class="invalid-feedback">
+                    
+                  </div>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Tgl Lahir</label>
-            <div class="col-sm-9">
-                
-                <div class="input-group date" id="tgl_lahir" name="tgl_lahir" data-target-input="nearest">
-                    <input type="text" class="form-control datetimepicker-input" data-target="#tgl_lahir"/>
-                    <div class="input-group-append" data-target="#tgl_lahir" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                    </div>
-                </div>
-              <div class="invalid-feedback">
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Email</label>
+              <div class="col-sm-9">
+                  <input type="email" class="form-control" id="email" name="email"  />
                   
-                </div>
+                <div class="invalid-feedback">
+                    
+                  </div>
+              </div>
             </div>
-          </div>
 
-          
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Alamat</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="alamat" name="alamat"  />
-                
-              <div class="invalid-feedback">
-                  
-                </div>
-            </div>
-          </div>
-
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">No. Telp.</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="no_telp" name="no_telp" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask />
-                
-              <div class="invalid-feedback">
-                  
-                </div>
-            </div>
-          </div>
-
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Email</label>
-            <div class="col-sm-9">
-                <input type="email" class="form-control" id="email" name="email"  />
-                
-              <div class="invalid-feedback">
-                  
-                </div>
-            </div>
-          </div>
-
-          <div class="form-group row ">
-            <label  class="col-sm-3 col-form-label">Foto</label>
-            <div class="col-sm-9">
-                <div class="input-group">
-					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="foto" name="foto" > 
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">Foto</label>
+              <div class="col-sm-9">
+                  <div class="input-group">
+  					         <div class="custom-file">
+  						          <input type="file" class="custom-file-input" id="foto" name="foto" oninput="pic.src=window.URL.createObjectURL(this.files[0])"> > 
                         <label class="custom-file-label" for="input_post_thumbnail">Choose file</label>
-					</div>
-				
-				</div>
-                
-              	<div class="invalid-feedback">
+  					         </div>
+  				
+  				        </div>
                   
-                </div>
+                	<div class="invalid-feedback">
+                    
+                  </div>
+
+                  <div class="col-sm-4 pt-2">
+                    <div class="position-relative">
+                      <img id="pic" class="img-fluid" />
+                    </div>
+                  </div>
+              </div>
             </div>
-          </div>
-          
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="simpan()">Simpan</button>
-      </div>
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="btn_simpan" onclick="simpan()" >SImpan </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -237,6 +244,8 @@
 <script src="<?=base_url('assets/admin');?>/plugins/inputmask/jquery.inputmask.min.js"></script>
 <!-- date-range-picker -->
 <script src="<?=base_url('assets/admin');?>/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="<?=base_url('assets/admin');?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 <!-- AdminLTE App -->
 <script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 
@@ -244,7 +253,7 @@
   var table;
   $(function () {
     bsCustomFileInput.init();
-    
+    $('[data-mask]').inputmask();
     table = $('#data').DataTable({
     		"paging": true,
     		"lengthChange": true,
@@ -275,9 +284,14 @@
         placeholder: "----Pilih Opsi----",
         allowClear: true
     });
+    $('#reservationdate').datetimepicker({
+        format: 'YYYY-MM-DD',
+        viewMode: 'years'
+
+    });
     $('#tambahModal').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget) // Button that triggered the modal
-      var recipient = button.data('id_kurikulum') // Extract info from data-* attributes
+      //var recipient = button.data('id_kurikulum') // Extract info from data-* attributes
       // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
       // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
       var modal = $(this)
@@ -292,6 +306,62 @@
         $(this).find('.invalid-feedback').text('');
         $(this).find('.select2').val('').trigger('change');
     });
+
+    $('#form_simpan').submit(function(e){
+      e.preventDefault();
+      var form = $('#form_simpan');
+      var frmdta = new FormData();
+        Swal.fire({
+          title: 'Anda yakin akan menyimpan data ??',
+          showCancelButton: true,
+          confirmButtonText: 'Ya',
+          allowOutsideClick: false,
+        }).then((result) => {
+            if(result.isConfirmed) {
+                
+                $.ajax({
+                     url:"<?php echo site_url("admin/$controller/tambah");?>",
+                     type:"post",
+                     data: frmdta,
+                     dataType:'json',
+                     success: function(data){
+                         if (data.status) {
+                                table.ajax.reload(null,false);
+                                $('#tambahModal').modal('hide');
+                                const Toast = Swal.mixin({
+                                  toast: true,
+                                  position: 'top-end',
+                                  showConfirmButton: false,
+                                  timer: 3000,
+                                  timerProgressBar: true,
+                                  didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                  }
+                                })
+                                
+                                Toast.fire({
+                                  icon: 'success',
+                                  title: 'Berhasil disimpan!!'
+                                })
+                                
+                            }else{
+                                $.each(data.validation, function(key, value) {
+                                    $('#' + key).addClass('is-invalid');
+
+                                    $('#' + key).parents('.form-group').find('.invalid-feedback').text(value);
+                                });
+                                
+                                                           
+                            } 
+                     },
+                     error: function (xhr, ajaxOptions, thrownError) {
+                      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                     }
+                });
+            }
+        })  
+    })
   });
 
   function reload_table()
@@ -353,11 +423,11 @@
   }
 
   function simpan() {
-    
-    var data = $('#form_detail_kurikulum').serialize();
-    $('#form_detail_kurikulum').find('.invalid-feedback').text('');
+    //var form = $('#form_simpan');
+    var data = new FormData($("#form_simpan")[0]);
+    $('#form_simpan').find('.invalid-feedback').text('');
         Swal.fire({
-          title: 'Anda yakin akan menyimpan detail kurikulum ??',
+          title: 'Anda yakin akan menyimpan data ??',
           showCancelButton: true,
           confirmButtonText: 'Ya',
           allowOutsideClick: false,
@@ -365,9 +435,11 @@
           
           if (result.isConfirmed) {
             $.ajax({
-                 url:"<?php echo site_url("admin/$controller/simpanDetailKurikulum");?>",
+                 url:"<?php echo site_url("admin/$controller/tambah");?>",
                  type:"post",
                  data: data,
+                 processData: false,
+                 contentType: false,
                  dataType:'json',
                  success: function(data){
                      if (data.status) {
@@ -391,19 +463,19 @@
                             })
                             
                         }else{
-                            $.each(data.validation, function(key, value) {
-                                $('#' + key).addClass('is-invalid');
-
-                                $('#' + key).parents('.form-group').find('.invalid-feedback').text(value);
-                            });
                             
-                                                       
+                              $.each(data.validation, function(key, value) {
+                                  $('#' + key).addClass('is-invalid');
+
+                                  $('#' + key).parents('.form-group').find('.invalid-feedback').text(value);
+                              });
+                                                                            
                         } 
                  },
                  error: function (xhr, ajaxOptions, thrownError) {
                   console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                  }
-             });
+            });
           } 
         })
         
