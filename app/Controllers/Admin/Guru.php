@@ -23,13 +23,13 @@ class Guru extends BaseController
     {
         $request = Services::request();
         $datatable = new GuruModel($request);
-
+        
         $data = [];
         if($this->request->getVar('aksi')=='hapus' && $this->request->getVar('id')){
             $dataGuru = $datatable->getData($this->request->getVar('id'));
             //dd($dataKelas);
             if($dataGuru['id_guru']){ #memastikan ada data
-                
+                @unlink(LOKASI_UPLOAD."/".$dataGuru['foto']);
                 $aksi = $datatable->hapus($this->request->getVar('id'));
                 if($aksi == true){
                     session()->setFlashdata('success', 'Data telah dihapus');
@@ -68,7 +68,7 @@ class Guru extends BaseController
                 $row[] = $list->nama_lengkap;
                 $row[] = $list->nip;
                 $row[] = $list->tmp_lahir.", ".$list->tgl_lahir;
-                $row[] = $list->foto;
+                $row[] = '<img src="'.base_url().'/'.$list->foto.'"  class="profile-user-img img-fluid img-circle">';
                 $row[] = '<a onclick="hapus('."'".$list->id_guru."'".'); return false;" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
                             <a href="'.$link_edit.'" class="btn btn-xs btn-warning" data-placement="top" title="Edit"><i class="fa fa-edit"></i></a> 
                             <a href="'.$link_detail.'" class="btn btn-xs btn-primary" data-placement="top" title="Detail"><i class="fa fa-eye"></i></a>
@@ -153,15 +153,22 @@ class Guru extends BaseController
                 
             }else{
                 $foto = "assets/admin/dist/img/no-pict.jpg";
+                
+                
                 if($file->getName()){
                     $nm_foto = $file->getRandomName();
-                    //$nmFolder    = str_replace( "'", "", $this->request->getVar('nama_lengkap'));
-                    $foto = $nm_foto;
+                    $nmFolder    = str_replace( "'", "", $this->request->getVar('nama_lengkap'));
+                    $path = 'berkas/'.$this->halaman_controller.'/'.$nmFolder;
+                    /*if (!is_dir(WRITEPATH.'berkas/'.$this->halaman_controller.'/'.$nmFolder)) {
+                        mkdir(WRITEPATH.'berkas/'.$this->halaman_controller.'/'.$nmFolder, 0777, TRUE);
+                    }*/
+                    $foto = $path.'/'.$nm_foto;
+                    $file->move($path, $nm_foto);
                 }
                 
                 /*
-                if (!is_dir(WRITEPATH.'berkas/'.$controller.'/'.$nmFolder)) {
-                    mkdir(WRITEPATH.'berkas/'.$controller.'/'.$nmFolder, 0777, TRUE);
+                if (!is_dir(WRITEPATH.'berkas/'.$this->halaman_controller.'/'.$nmFolder)) {
+                    mkdir(WRITEPATH.'berkas/'.$this->halaman_controller.'/'.$nmFolder, 0777, TRUE);
                 }
                 */
                 
@@ -180,11 +187,13 @@ class Guru extends BaseController
                 if($aksi != false){
                     $id = $aksi;
                     //dd($aksi);
+                    /*
                     if($file->getName()){
                         //$lokasi_direktori = "upload";
                         $lokasi_direktori = WRITEPATH.'upload';
                         $file->move(WRITEPATH . 'uploads', $nm_foto);
                     }
+                    */
                     echo json_encode(array("status" => true));
                     
                     //session()->setFlashdata('success', 'Data berhasil disimpan');

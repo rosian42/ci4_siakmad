@@ -7,9 +7,10 @@ use CodeIgniter\Model;
 
 use Michalsn\Uuid\UuidModel;
 
-class GuruModel extends UuidModel
+class GuruModel extends Model
 {
-    protected $uuidFields = ['id_guru'];
+    
+    //protected $uuidFields = ['id_guru'];
     protected $DBGroup          = 'default';
     protected $table            = 'tb_guru';
     protected $primaryKey       = 'id_guru';
@@ -18,7 +19,7 @@ class GuruModel extends UuidModel
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;*/
-    protected $allowedFields    = ['nip', 'nama_lengkap', 'tmp_lahir', 'tgl_lahir', 'alamat', 'no_telp', 'email', 'foto', 'id_mapel'];
+    protected $allowedFields    = ['id_guru', 'nip', 'nama_lengkap', 'tmp_lahir', 'tgl_lahir', 'alamat', 'no_telp', 'email', 'foto', 'id_mapel'];
 
     /*
     // Dates
@@ -121,6 +122,7 @@ class GuruModel extends UuidModel
             $aksi = $builder->replace($data);
             $id = $data['id_guru'];
         }else{
+            $builder->set('id_guru', 'UUID()', FALSE);
             $aksi = $builder->insert($data);
             $id = $builder->getInsertID();
         }

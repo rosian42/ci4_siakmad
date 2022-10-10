@@ -181,7 +181,7 @@
               <div class="col-sm-9">
                   <div class="input-group">
   					         <div class="custom-file">
-  						          <input type="file" class="custom-file-input" id="foto" name="foto" oninput="pic.src=window.URL.createObjectURL(this.files[0])"> > 
+  						          <input type="file" accept="image/*" class="custom-file-input" id="foto" name="foto" oninput="pic.src=window.URL.createObjectURL(this.files[0])"> > 
                         <label class="custom-file-label" for="input_post_thumbnail">Choose file</label>
   					         </div>
   				
