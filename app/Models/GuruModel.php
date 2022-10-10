@@ -120,18 +120,20 @@ class GuruModel extends Model
 
         if(isset($data['id_guru'])){
             $aksi = $builder->replace($data);
-            $id = $data['id_guru'];
+            //$id = $data['id_guru'];
+            return true;
         }else{
             $builder->set('id_guru', 'UUID()', FALSE);
             $aksi = $builder->insert($data);
-            $id = $builder->getInsertID();
+            //$id = $builder->getInsertID();
+            return true;
         }
-
+        /*
         if($aksi){
             return $id;
         }else{
             return false;
-        }
+        }*/
     }
 
     //fungsi ambil data

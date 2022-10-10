@@ -99,9 +99,10 @@ class Guru extends BaseController
             $data = $this->request->getVar(); //Setiap yang diinput akan dikembalikan ke view
             $aturan = [
                 'nuptk' => [
-                    'rules' => 'required',
+                    'rules' => 'required|is_unique[tb_guru.nip]',
                     'errors' => [
-                        'required'=>'NUPTK harus diisi'
+                        'required'=>'NUPTK harus diisi',
+                        'is_unique' => 'NUPTK '.$this->request->getVar('nuptk').' sudah ada.'
                     ]
                 ],
                 'nama_lengkap' => [
@@ -149,7 +150,7 @@ class Guru extends BaseController
                 
                // return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
                 //dd($this->validation->getRules());
-                echo json_encode(array("status" => false, "validation" => $this->validation->getErrors()));
+                echo json_encode(array("msg" => "invalid", "validation" => $this->validation->getErrors()));
                 
             }else{
                 $foto = "assets/admin/dist/img/no-pict.jpg";
@@ -194,14 +195,14 @@ class Guru extends BaseController
                         $file->move(WRITEPATH . 'uploads', $nm_foto);
                     }
                     */
-                    echo json_encode(array("status" => true));
+                    echo json_encode(array("msg" => "success"));
                     
                     //session()->setFlashdata('success', 'Data berhasil disimpan');
                     //return redirect()->to('admin/'.$this->halaman_controller);
                 }else{
                     //session()->setFlashdata('warning', ['Gagal menyimpan data']);
                     //return redirect()->to('admin/'.$this->halaman_controller.'/tambah')->withInput()->with('validation', $this->validation);
-                    echo json_encode(array("status" => false));
+                    echo json_encode(array("msg" => "error"));
 
                 }
 

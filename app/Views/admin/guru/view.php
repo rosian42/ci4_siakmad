@@ -325,7 +325,7 @@
                      data: frmdta,
                      dataType:'json',
                      success: function(data){
-                         if (data.status) {
+                         if (data.msg=='success') {
                                 table.ajax.reload(null,false);
                                 $('#tambahModal').modal('hide');
                                 const Toast = Swal.mixin({
@@ -345,7 +345,7 @@
                                   title: 'Berhasil disimpan!!'
                                 })
                                 
-                            }else{
+                            }else if(data.msg=='invalid'){
                                 $.each(data.validation, function(key, value) {
                                     $('#' + key).addClass('is-invalid');
 
@@ -353,7 +353,25 @@
                                 });
                                 
                                                            
-                            } 
+                            } else{
+                              $('#tambahModal').modal('hide');
+                                const Toast = Swal.mixin({
+                                  toast: true,
+                                  position: 'top-end',
+                                  showConfirmButton: false,
+                                  timer: 3000,
+                                  timerProgressBar: true,
+                                  didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                  }
+                                })
+                                
+                                Toast.fire({
+                                  icon: 'error',
+                                  title: 'Gagal disimpan!!'
+                                })
+                            }
                      },
                      error: function (xhr, ajaxOptions, thrownError) {
                       console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
