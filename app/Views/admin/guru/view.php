@@ -407,7 +407,7 @@
   function edit(id) {
     $.ajax({
       type : "post",
-      url : "<?php echo site_url("admin/$controller/edit");?>",
+      url : "<?php echo site_url("admin/$controller/getData");?>",
       data : "id="+id,
       dataType:'json',
       success : function(response){

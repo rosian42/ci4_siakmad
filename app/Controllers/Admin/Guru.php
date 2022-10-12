@@ -300,7 +300,7 @@ class Guru extends BaseController
         
     }
 
-    public function edit()
+    public function getData()
     {
         $request = Services::request();
         $model = new GuruModel($request);
