@@ -119,21 +119,28 @@ class GuruModel extends Model
         }
 
         if(isset($data['id_guru'])){
-            $aksi = $builder->replace($data);
+            $builder->replace($data);
             //$id = $data['id_guru'];
             return true;
         }else{
             $builder->set('id_guru', 'UUID()', FALSE);
-            $aksi = $builder->insert($data);
+            $builder->insert($data);
             //$id = $builder->getInsertID();
             return true;
         }
-        /*
+        /* if(isset($data['id_guru'])){
+			$aksi = $builder->save($data);
+			$id = $data['id_guru'];
+		}else{
+			$aksi = $builder->save($data);
+			$id = $builder->getInsertID();
+		}
+        
         if($aksi){
             return $id;
         }else{
             return false;
-        }*/
+        } */
     }
 
     //fungsi ambil data

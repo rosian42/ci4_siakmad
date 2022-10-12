@@ -96,7 +96,8 @@
             <div class="form-group row ">
               <label  class="col-sm-3 col-form-label">NUPTK</label>
               <div class="col-sm-9">
-                  <input type="text" class="form-control" id="nuptk" name="nuptk"  />
+                  <input type="text" class="form-control" hidden id="id_guru" name="id_guru"  />
+                  <input type="text" class="form-control" id="nip" name="nip"  />
                   <div class="invalid-feedback">
                     
                   </div>
@@ -170,7 +171,7 @@
               <div class="col-sm-9">
                   <input type="email" class="form-control" id="email" name="email"  />
                   
-                <div class="invalid-feedback">
+                  <div class="invalid-feedback">
                     
                   </div>
               </div>
@@ -289,97 +290,18 @@
         viewMode: 'years'
 
     });
-    $('#tambahModal').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      //var recipient = button.data('id_kurikulum') // Extract info from data-* attributes
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this)
-      //$(this).find('#id_kurikulum').val(recipient).trigger('change');
-      //modal.find('.modal-title').text('New message to ' + recipient)
-      //modal.find('.modal-body input').val(recipient)
-    })
+    
 
     $('#tambahModal').on('hidden.bs.modal', function () {
         var modal = $(this)
-        
+        $(this).find('input').removeClass('is-invalid');
         $(this).find('.invalid-feedback').text('');
-        $(this).find('.select2').val('').trigger('change');
+        $(this).find('form').trigger('reset');
+        $(this).find('#pic').removeAttr('src');
+        
     });
 
-    $('#form_simpan').submit(function(e){
-      e.preventDefault();
-      var form = $('#form_simpan');
-      var frmdta = new FormData();
-        Swal.fire({
-          title: 'Anda yakin akan menyimpan data ??',
-          showCancelButton: true,
-          confirmButtonText: 'Ya',
-          allowOutsideClick: false,
-        }).then((result) => {
-            if(result.isConfirmed) {
-                
-                $.ajax({
-                     url:"<?php echo site_url("admin/$controller/tambah");?>",
-                     type:"post",
-                     data: frmdta,
-                     dataType:'json',
-                     success: function(data){
-                         if (data.msg=='success') {
-                                table.ajax.reload(null,false);
-                                $('#tambahModal').modal('hide');
-                                const Toast = Swal.mixin({
-                                  toast: true,
-                                  position: 'top-end',
-                                  showConfirmButton: false,
-                                  timer: 3000,
-                                  timerProgressBar: true,
-                                  didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                  }
-                                })
-                                
-                                Toast.fire({
-                                  icon: 'success',
-                                  title: 'Berhasil disimpan!!'
-                                })
-                                
-                            }else if(data.msg=='invalid'){
-                                $.each(data.validation, function(key, value) {
-                                    $('#' + key).addClass('is-invalid');
-
-                                    $('#' + key).parents('.form-group').find('.invalid-feedback').text(value);
-                                });
-                                
-                                                           
-                            } else{
-                              $('#tambahModal').modal('hide');
-                                const Toast = Swal.mixin({
-                                  toast: true,
-                                  position: 'top-end',
-                                  showConfirmButton: false,
-                                  timer: 3000,
-                                  timerProgressBar: true,
-                                  didOpen: (toast) => {
-                                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
-                                  }
-                                })
-                                
-                                Toast.fire({
-                                  icon: 'error',
-                                  title: 'Gagal disimpan!!'
-                                })
-                            }
-                     },
-                     error: function (xhr, ajaxOptions, thrownError) {
-                      console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                     }
-                });
-            }
-        })  
-    })
+    
   });
 
   function reload_table()
@@ -400,43 +322,7 @@
       allowOutsideClick: false
     }).then((result) => {
       window.location.href = link;
-      /*
-      if (result.isConfirmed) {
-        $.ajax({
-             url:"<?php echo site_url('admin/');?><?=$controller;?>",
-             type:"get",
-             data: {aksi:hapus, id:id},
-             dataType:'json',
-             success: function(data){
-                  if (data.status) {
-                      
-                      Swal.fire({
-                        title: "Berhasil....!",
-                        text: "Data berhasil dihapus",
-                        icon: "success",
-                      }).then(function () {
-                        reload_table();
-              
-                      });
-                  }else{
-                      
-                      Swal.fire({
-                        title: "Ooooppsss....!",
-                        text: " Gagal. ",
-                        icon: "error",
-                  }).then(function () {
-                      reload_table();
-              
-                  });
-                    } 
-             },
-             error: function (xhr, ajaxOptions, thrownError) {
-              console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-            }
-         });
-        
-      }
-      */
+      
     });
   }
 
@@ -460,7 +346,7 @@
                  contentType: false,
                  dataType:'json',
                  success: function(data){
-                     if (data.status) {
+                     if (data.msg=='success') {
                             table.ajax.reload(null,false);
                             $('#tambahModal').modal('hide');
                             const Toast = Swal.mixin({
@@ -476,11 +362,11 @@
                             })
                             
                             Toast.fire({
-                              icon: 'success',
-                              title: 'Berhasil disimpan!!'
+                              icon: data.msg,
+                              title: data.pesan
                             })
                             
-                        }else{
+                        }else if(data.msg=='invalid'){
                             
                               $.each(data.validation, function(key, value) {
                                   $('#' + key).addClass('is-invalid');
@@ -488,7 +374,26 @@
                                   $('#' + key).parents('.form-group').find('.invalid-feedback').text(value);
                               });
                                                                             
-                        } 
+                        }else{
+                          table.ajax.reload(null,false);
+                            $('#tambahModal').modal('hide');
+                            const Toast = Swal.mixin({
+                              toast: true,
+                              position: 'top-end',
+                              showConfirmButton: false,
+                              timer: 3000,
+                              timerProgressBar: true,
+                              didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                              }
+                            })
+                            
+                            Toast.fire({
+                              icon: data.msg,
+                              title: data.pesan
+                            })
+                        }
                  },
                  error: function (xhr, ajaxOptions, thrownError) {
                   console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
@@ -497,7 +402,36 @@
           } 
         })
         
-    }   
+  } 
+  
+  function edit(id) {
+    $.ajax({
+      type : "post",
+      url : "<?php echo site_url("admin/$controller/edit");?>",
+      data : "id="+id,
+      dataType:'json',
+      success : function(response){
+        if(response.msg){
+              $('#tambahModal').modal('show');
+              $.each(response.data, function(key, value) {
+                  
+                  if(key != "foto"){
+                    $('#' + key).val(value);
+                  }else if(key == "foto"){
+                    $('#pic').attr('src',"<?=base_url()?>/"+value);
+                  }
+                  //$('#tambahModal').parents('.form-group').find('#'+key).val(value);
+              });
+            }else{
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Oopsss',
+                  text : 'blablabla'
+                })
+            }
+      }
+    })
+  }
 </script>
 
 <?php 

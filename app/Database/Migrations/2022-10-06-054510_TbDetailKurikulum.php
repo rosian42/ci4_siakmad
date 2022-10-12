@@ -31,9 +31,7 @@ class TbDetailKurikulum extends Migration
                 'unsigned' => true
             ]
         ]);
-        $this->forge->addForeignKey('id_kurikulum', 'tb_kurikulum', 'id_kurikulum');
-        $this->forge->addForeignKey('id_mapel', 'tb_mapel', 'id_mapel');
-        $this->forge->addForeignKey('id_tingkat', 'tb_tingkatan_kelas', 'id_tingkat');
+        
         $this->forge->addKey('id_kurikulum_detail', true);
         $this->forge->createTable('tb_kurikulum_detail');
     }
