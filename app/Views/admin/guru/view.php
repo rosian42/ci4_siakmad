@@ -55,6 +55,7 @@
 	                  <tr>
 	                    <th>No</th>
 	                    <th>Nama</th>
+	                    <th>NIP</th>
 	                    <th>NUPTK</th>
 	                    <th>TTL</th>
 	                    <th>Foto</th>
@@ -94,10 +95,21 @@
         </div>
         <div class="modal-body">
             <div class="form-group row ">
-              <label  class="col-sm-3 col-form-label">NUPTK</label>
+              <label  class="col-sm-3 col-form-label">NIP</label>
               <div class="col-sm-9">
                   <input type="text" class="form-control" hidden id="id_guru" name="id_guru"  />
                   <input type="text" class="form-control" id="nip" name="nip"  />
+                  <div class="invalid-feedback">
+                    
+                  </div>
+              </div>
+            </div>
+
+            <div class="form-group row ">
+              <label  class="col-sm-3 col-form-label">NUPTK</label>
+              <div class="col-sm-9">
+                  
+                  <input type="text" class="form-control" id="nuptk" name="nuptk"  />
                   <div class="invalid-feedback">
                     
                   </div>
@@ -413,6 +425,7 @@
       success : function(response){
         if(response.msg){
               $('#tambahModal').modal('show');
+              $('#exampleModalLabel').text('Edit Guru');
               $.each(response.data, function(key, value) {
                   
                   if(key != "foto"){

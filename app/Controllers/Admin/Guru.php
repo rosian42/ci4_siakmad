@@ -29,7 +29,9 @@ class Guru extends BaseController
             $dataGuru = $datatable->getData($this->request->getVar('id'));
             //dd($dataKelas);
             if($dataGuru['id_guru']){ #memastikan ada data
-                @unlink($dataGuru['foto']);
+                if($dataGuru['foto'] != 'assets/admin/dist/img/no-pict.jpg'){
+                    @unlink($dataGuru['foto']);
+                }
                 $aksi = $datatable->hapus($this->request->getVar('id'));
                 if($aksi == true){
                     session()->setFlashdata('success', 'Data telah dihapus');
@@ -67,6 +69,7 @@ class Guru extends BaseController
                 $row[] = $no;
                 $row[] = $list->nama_lengkap;
                 $row[] = $list->nip;
+                $row[] = $list->nuptk;
                 $row[] = $list->tmp_lahir.", ".$list->tgl_lahir;
                 $row[] = '<img src="'.base_url().'/'.$list->foto.'"  class="profile-user-img img-fluid img-circle">';
                 $row[] = '<a onclick="hapus('."'".$list->id_guru."'".'); return false;" role="button" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
@@ -170,6 +173,7 @@ class Guru extends BaseController
                     
                     $record = [
                         'nip' => $this->request->getVar('nip'),
+                        'nuptk' => $this->request->getVar('nuptk'),
                         'nama_lengkap' => $this->request->getVar('nama_lengkap'),
                         'tmp_lahir' => $this->request->getVar('tmp_lahir'),
                         'tgl_lahir' => $this->request->getVar('tgl_lahir'),
@@ -266,13 +270,16 @@ class Guru extends BaseController
                         $path = 'berkas/'.$this->halaman_controller.'/'.$nmFolder;
                         $foto = $path.'/'.$nm_foto;
                         $file->move($path, $nm_foto);
-                        @unlink($dataGuru['foto']);
+                        if($dataGuru['foto'] != 'assets/admin/dist/img/no-pict.jpg'){
+                            @unlink($dataGuru['foto']);
+                        }
                     }
                     
                     
                     $record = [
                         'id_guru' => $dataGuru['id_guru'],
                         'nip' => $this->request->getVar('nip'),
+                        'nuptk' => $this->request->getVar('nuptk'),
                         'nama_lengkap' => $this->request->getVar('nama_lengkap'),
                         'tmp_lahir' => $this->request->getVar('tmp_lahir'),
                         'tgl_lahir' => $this->request->getVar('tgl_lahir'),
