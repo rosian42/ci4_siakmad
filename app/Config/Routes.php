@@ -52,19 +52,28 @@ $routes->group('admin',['filter'=>'auth'],function($routes){
     $routes->group('artikel',function($routes){
         $routes->add('/','Admin\Artikel::index');
         $routes->add('tambah','Admin\Artikel::tambah');
-        $routes->add('edit/(:any)','Admin\Artikel::edit/$1');
+        $routes->add('tambah/(:any)','Admin\Artikel::tambah/$1');
     });
     $routes->group('page',function($routes){
         $routes->add('/','Admin\Page::index');
         $routes->add('tambah','Admin\Page::tambah');
-        $routes->add('edit/(:any)','Admin\Page::edit/$1');
+        $routes->add('tambah/(:any)','Admin\Page::tambah/$1');
     });
     $routes->add('socials','Admin\Socials::index');
     $routes->add('akun','Admin\Akun::index');
 });
 
-$routes->add('artikel/(:any)','Artikel::index/$1');
-$routes->add('page/(:any)','Page::index/$1');
+$routes->add('artikel','Home::artikel');
+$routes->add('agenda','Home::agenda');
+$routes->add('pengumuman','Home::pengumuman');
+$routes->add('galeri','Home::galeri');
+$routes->add('artikel/(:segment)','Home::artikel/$1');
+$routes->add('agenda/(:segment)','Home::agenda/$1');
+$routes->add('pengumuman/(:segment)','Home::pengumuman/$1');
+$routes->add('galeri/(:segment)','Home::galeri/$1');
+$routes->add('formulir-ppdb','Ppdb::index');
+//$routes->add('artikel/(:any)','Artikel::index/$1');
+//$routes->add('page/(:any)','Page::index/$1');
 
 /*
  * --------------------------------------------------------------------

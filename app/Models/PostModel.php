@@ -5,7 +5,18 @@ class PostModel extends Model
 {
 	protected $table = "posts";
 	protected $primaryKey = "post_id";
-	protected $allowedFields = ['username', 'post_title', 'post_title_seo', 'post_status', 'post_type', 'post_thumbnail', 'post_description', 'post_content'];
+	protected $useAutoIncrement = true;
+    protected $returnType       = 'array';
+    protected $useSoftDeletes   = true;
+    protected $protectFields    = true;
+	protected $allowedFields = ['username', 'post_title', 'event_date','post_title_seo', 'post_status', 'post_type', 'post_thumbnail', 'post_description', 'post_content', 'post_keyword'];
+
+	// Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
 	function setTitleSeo($title){
 		$builder = $this->table($this->table);
@@ -30,9 +41,10 @@ class PostModel extends Model
 		helper('global_helper');
 		$builder = $this->table($this->table);
 		$data['post_type'] = $post_type;
+		/*
 		foreach ($data as $key => $value) {
 			$data[$key]=bersihkan_html($value);
-		}
+		}*/
 		if(isset($data['post_id'])){
 			$aksi = $builder->save($data);
 			$id = $data['post_id'];
@@ -74,6 +86,7 @@ class PostModel extends Model
 		}
 		$builder->groupEnd();
 		$builder->where('post_type', $post_type);
+		$builder->where('deleted_at', null);
 		$builder->orderBy('post_time', 'desc');
 		$data['record'] = $builder->paginate($jumlah_baris, $group_dataset);
 		$data['pager'] = $builder->pager;
@@ -82,6 +95,7 @@ class PostModel extends Model
 
 	function getPost($post_id)
 	{
+		//dd($post_id);
 		$builder = $this->table($this->table);
 		$builder->where('post_id', $post_id);
 		$query = $builder->get();

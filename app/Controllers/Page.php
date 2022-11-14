@@ -28,8 +28,8 @@ class Page extends BaseController
         $data['tanggal'] = $dataArtikel['post_time'];
         $data['thumbnail'] = $dataArtikel['post_thumbnail'];
 
-        echo view('depan/v_templateheader', $data);
-        echo view('depan/v_page', $data);
-        echo view('depan/v_templatefooter', $data);
+        echo view('front/v_templateheader', $data);
+        echo view('front/v_page', $data);
+        echo view('front/v_templatefooter', $data);
     }
 }

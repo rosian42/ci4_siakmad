@@ -27,6 +27,7 @@ class Pager extends BaseConfig
         //Mendaftarkan view data table
         'datatable'   => 'App\Views\Pager\datatable',
         'depan'   => 'App\Views\Pager\depan',
+        'front'   => 'App\Views\Pager\front',
 
     ];
 

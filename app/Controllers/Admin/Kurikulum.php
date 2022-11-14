@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Controllers\BaseController;
 
 use App\Models\KurikulumModel;
+// use App\Models\ServersideModel;
 
 use Config\Services;
 
@@ -278,6 +279,49 @@ class Kurikulum extends BaseController
             echo json_encode($output);
         }
     }
+    /* function ajaxListDetailKurikulum()
+    {
+        $request = \Config\Services::request();
+        $list_data = new ServersideModel();
+        if ($this->request->getMethod() == "post") {
+            $where = [];
+            if($this->request->getVar('id_kurikulum'))
+            {
+                $where[] ="tb_kurikulum_detail.id_kurikulum => ".$this->request->getVar('id_kurikulum');
+            }
+            if($this->request->getVar('id_tingkat'))
+            {
+                $where[]="tb_kurikulum_detail.id_tingkat => ". $this->request->getVar('id_tingkat');
+            }
+            //Column Order Harus Sesuai Urutan Kolom Pada Header Tabel di bagian View
+            //Awali nama kolom tabel dengan nama tabel->tanda titik->nama kolom seperti pengguna.nama
+            $column_order = array('tb_kurikulum_detail.id_tingkat');
+            $column_search = array('tb_mapel.nm_mapel');
+            $order = array('tb_kurikulum_detail.id_tingkat' => 'asc');
+            $list = $list_data->get_datatables('tb_kurikulum_detail', $column_order, $column_search, $order, $where);
+            $data = array();
+            $no = $request->getPost("start");
+            foreach ($list as $lists) {
+                $no++;
+                $row    = array();
+                $row[] = $no;
+                $row[] = $list->id_mapel;
+                $row[] = $list->id_kurikulum;
+                $row[] = '<a onclick="hapus('."'".$list->id_kurikulum_detail."'".'); return false;" class="btn btn-xs btn-danger" data-placement="top" title="Hapus"><i class="fa fa-trash"></i></a>
+                        ';
+                $data[] = $row;
+            }
+            $output = array(
+                "draw" => $request->getPost("draw"),
+                "recordsTotal" => $list_data->count_all('tb_siswa as s', $where),
+                "recordsFiltered" => $list_data->count_filtered('tb_siswa as s', $column_order, $column_search, $order, $where),
+                "data" => $data,
+            );
+
+            return json_encode($output);
+        }
+    } */
+    
 
     public function simpanDetailKurikulum()
     {

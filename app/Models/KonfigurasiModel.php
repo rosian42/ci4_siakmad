@@ -5,7 +5,15 @@ class KonfigurasiModel extends Model
 {
 	protected $table = "konfigurasi";
 	protected $primaryKey = "id";
-	protected $allowedFields = ['konfigurasi_name', 'konfigurasi_value'];
+	protected $useSoftDeletes   = true;
+	protected $allowedFields = ['konfigurasi_name', 'konfigurasi_value', 'konfigurasi_default', 'konfigurasi_group'];
+
+	// Dates
+    protected $useTimestamps = true;
+    protected $dateFormat    = 'datetime';
+    protected $createdField  = 'created_at';
+    protected $updatedField  = 'updated_at';
+    protected $deletedField  = 'deleted_at';
 
 	// Untuk ambil data
 	public function getData($parameter)

@@ -95,9 +95,6 @@ class Guru extends BaseController
         $request = Services::request();
         $model = new GuruModel($request);
         
-        $data = [];
-        
-
         if($this->request->getMethod()=="post"){
             if(empty($this->request->getVar('id_guru'))){
                 $aturan = [

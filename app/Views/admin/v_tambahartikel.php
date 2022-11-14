@@ -5,10 +5,10 @@
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
+ <!-- summernote -->
+ <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/summernote/summernote-bs4.css">
   <!-- Theme style -->
 	<link rel="stylesheet" href="<?=base_url('assets/admin');?>/dist/css/adminlte.min.css">
- <!-- summernote -->
- <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/summernote/summernote-bs4.min.css">
   	<?php
 		    $halaman = "artikel";
 		?>
@@ -108,7 +108,7 @@
 
 					<div class="mb-3">
 						<label for="summernote" class="form-label">Konten</label>
-						<textarea class="form-control" id="summernote" name="post_content" rows="10"><?php echo (isset($post_content))?$post_content:""?></textarea>
+						<textarea class="form-control summernote" id="summernote" name="post_content" rows="10"><?php echo (isset($post_content))?$post_content:""?></textarea>
 					</div>
                 </div>
                 <!-- /.card-body -->
@@ -142,17 +142,148 @@
 <script src="<?=base_url('assets/admin');?>/dist/js/adminlte.js"></script>
 
 <!-- Summernote -->
-<script src="<?=base_url('assets/admin');?>/plugins/summernote/summernote-bs4.min.js"></script>
+<script src="<?=base_url('assets/admin');?>/plugins/summernote/summernote-bs4.js"></script>
+<script src="<?=base_url('assets/admin');?>/plugins/summernote/summernote-file.js"></script>
+<script src="<?=base_url('assets/admin');?>/plugins/summernote/summernote-ext-rtl.js"></script>
 <script>
 $(function () {
     //Initialize Select2 Elements
   $('.select2').select2();
-	$('#summernote').summernote({
-            tabsize: 2,
-            height: 200
-        });
+	$('.summernote').summernote({
+            dialogsInBody: true,
+            toolbar: [
+	          ['style', ['style']],
+	          ['font', ['bold', 'underline', 'clear']],
+	          ['fontname', ['fontname']],
+	          ['fontsize', ['fontsize']],
+	          ['font', ['strikethrough', 'superscript', 'subscript']],
+	          
+	          ['color', ['color']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['table', ['table']],
+	          ['insert', ['ltr','rtl', 'link', 'picture', 'video', 'file']],
+	          ['view', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
+	        ],
+	        height: "300px",
+	        callbacks: {
+		        
+	            onImageUpload: function (image) {
+
+	                uploadImage(image[0]);
+	                /*for (let i=0; i<image.length; i++) {
+	                	$.upload(image[i]);
+	                }*/
+	            },
+	            onMediaDelete: function(target){
+	            	deleteImage(target[0].src);
+	            }
+	            ,
+	            onFileUpload: function(file) {
+	                myOwnCallBack(file[0]);
+	            }
+			}
+  });
 	bsCustomFileInput.init();
 })
+
+function uploadImage(image) {
+    var data = new FormData();
+    data.append("image", image, image.name);
+    $.ajax({
+        url: "<?php echo site_url('admin/summernote/upload_image')?>",
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: data,
+        type: "POST",
+        success: function(url) {
+			$('.summernote').summernote("insertImage", url);
+        },
+        error: function(data) {
+            console.log(data);
+        }
+    });
+}
+
+function deleteImage(src) {
+    $.ajax({
+        data: {src : src},
+        type: "POST",
+        url: "<?php echo site_url('admin/summernote/delete_image')?>",
+        cache: false,
+        success: function(response) {
+            console.log(response);
+        }
+    });
+}
+
+function myOwnCallBack(file) {
+    let data = new FormData();
+    data.append("file", file, file.name);
+    $.ajax({
+        data: data,
+        type: "POST",
+        url: "<?php echo site_url('admin/summernote/upload_file')?>", //Your own back-end uploader
+        cache: false,
+        contentType: false,
+        processData: false,
+        /*xhr: function() { //Handle progress upload
+            let myXhr = $.ajaxSettings.xhr();
+            if (myXhr.upload) myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
+            return myXhr;
+        },*/
+        success: function(url) {
+            var HTMLstring = '<iframe src="'+url+'" width="100%" height="600" allow="autoplay"></iframe>';
+            $('.summernote').summernote('editor.pasteHTML', HTMLstring);
+            /*if(reponse.status === true) {
+                let listMimeImg = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'image/svg'];
+                let listMimeAudio = ['audio/mpeg', 'audio/ogg', 'audio/mp3'];
+                let listMimeVideo = ['video/mpeg', 'video/mp4', 'video/webm'];
+                let elem;
+ 
+                if (listMimeImg.indexOf(file.type) > -1) {
+                    //Picture
+                    $('.tugas').summernote('editor.insertImage', reponse.filename);
+                } else if (listMimeAudio.indexOf(file.type) > -1) {
+                    //Audio
+                    elem = document.createElement("audio");
+                    elem.setAttribute("src", reponse.filename);
+                    elem.setAttribute("controls", "controls");
+                    elem.setAttribute("preload", "metadata");
+                    $('.tugas').summernote('editor.insertNode', elem);
+                } else if (listMimeVideo.indexOf(file.type) > -1) {
+                    //Video
+                    elem = document.createElement("video");
+                    elem.setAttribute("src", reponse.filename);
+                    elem.setAttribute("controls", "controls");
+                    elem.setAttribute("preload", "metadata");
+                    $('.tugas').summernote('editor.insertNode', elem);
+                } else {
+                    //Other file type
+                    var node;
+                    node = document.createElement("a");
+                    let linkText = document.createTextNode(file.name);
+                    node.appendChild(linkText);
+                    node.title = file.name;
+                    node.href = reponse.filename;
+                    $('.tugas').summernote('insertNode', node);
+                }
+            }*/
+        }
+    });
+}
+	 
+function progressHandlingFunction(e) {
+    if (e.lengthComputable) {
+        //Log current progress
+        console.log((e.loaded / e.total * 100) + '%');
+ 
+        //Reset progress on complete
+        if (e.loaded === e.total) {
+            console.log("Upload finished.");
+        }
+    }
+}
 </script>
 
 

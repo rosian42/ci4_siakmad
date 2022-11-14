@@ -5,11 +5,9 @@ namespace App\Models;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\Model;
 
-use Michalsn\Uuid\UuidModel;
-
 class GuruModel extends Model
 {
-    
+
     //protected $uuidFields = ['id_guru'];
     protected $DBGroup          = 'default';
     protected $table            = 'tb_guru';
@@ -60,7 +58,6 @@ class GuruModel extends Model
         //$this->db = db_connect();
         $this->request = $request;
         $this->dt = $this->table($this->table);
-
     }
 
     private function getDatatablesQuery()
@@ -115,14 +112,14 @@ class GuruModel extends Model
         helper('global_helper');
         $builder = $this->table($this->table);
         foreach ($data as $key => $value) {
-            $data[$key]=bersihkan_html($value);
+            $data[$key] = bersihkan_html($value);
         }
 
-        if(isset($data['id_guru'])){
+        if (isset($data['id_guru'])) {
             $builder->replace($data);
             //$id = $data['id_guru'];
             return true;
-        }else{
+        } else {
             $builder->set('id_guru', 'UUID()', FALSE);
             $builder->insert($data);
             //$id = $builder->getInsertID();
@@ -156,11 +153,11 @@ class GuruModel extends Model
     {
         $builder = $this->table($this->table);
         $builder->where($this->primaryKey, $id);
-        if($builder->delete()){
+        if ($builder->delete()) {
             return true;
-        }else{
+        } else {
             return false;
         }
-
     }
+
 }

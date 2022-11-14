@@ -3,8 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIAKMAD </title>
-
+  <!--<meta name="<?=csrf_token()?>" content="<?=csrf_hash()?>" class="csrf">-->
+  <title><?=(empty(konfigurasi_get('web_title')['konfigurasi_value']))?konfigurasi_get('web_title')['konfigurasi_default']:konfigurasi_get('web_title')['konfigurasi_value'];?> <?=(empty(konfigurasi_get('tagline')['konfigurasi_value']))?" | ".konfigurasi_get('tagline')['konfigurasi_default']:" | ".konfigurasi_get('tagline')['konfigurasi_value'];?> </title>
+  <meta name="description" content="<?=(empty(konfigurasi_get('meta_description')['konfigurasi_value']))?konfigurasi_get('meta_description')['konfigurasi_default']:konfigurasi_get('meta_description')['konfigurasi_value'];?>">
+    <meta name="keyword" content="<?=(empty(konfigurasi_get('meta_keyword')['konfigurasi_value']))?konfigurasi_get('meta_keyword')['konfigurasi_default']:konfigurasi_get('meta_keyword')['konfigurasi_value'];?>">
+    <!-- FAV ICON(BROWSER TAB ICON) -->
+    <link rel="shortcut icon" href="<?=(empty(konfigurasi_get('favicon')['konfigurasi_value']))?base_url(konfigurasi_get('favicon')['konfigurasi_default']):base_url(konfigurasi_get('favicon')['konfigurasi_value']);?>" type="image/x-icon">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -12,6 +16,7 @@
 
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="<?=base_url('assets/admin');?>/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" data-panel-auto-height-mode="height">
 <div class="wrapper">
